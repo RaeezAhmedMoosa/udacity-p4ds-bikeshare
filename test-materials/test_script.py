@@ -4,23 +4,17 @@
 import numpy as np
 import pandas as pd
 
-# Practice Problem 1
-ch_df = pd.read_csv("../bikeshare-data/chicago.csv")
+# Practice Problem 2
+filename = "../bikeshare-data/chicago.csv"
 
-#print(ch_df.info())
+df = pd.read_csv(filename)
 
-ch_df["Start Time"] = pd.to_datetime(ch_df["Start Time"])
+print(type(df))
 
-#print(ch_df.info())
+users_count = df["User Type"].value_counts()
 
-#print(ch_df["Start Time"].head())
+print(users_count)
 
-ch_df["Hour"] = ch_df["Start Time"].dt.hour
+print(type(users_count))
 
-#print(ch_df["Hour"].head())
-
-print(ch_df.head())
-
-popular_hour = ch_df["Hour"].mode()[0]
-
-print(popular_hour)
+print(users_count.iloc[:])

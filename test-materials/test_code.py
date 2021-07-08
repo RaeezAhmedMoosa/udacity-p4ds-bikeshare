@@ -122,3 +122,31 @@ ch_df["Hour"] = ch_df["Start Time"].dt.hour
 
 # This returns the modal value for the "Hours" column
 popular_hour = ch_df["Hour"].mode()[0]
+
+
+
+
+# Practice Problem 2: Display a Breakdown of User Types
+#
+# There are different types of users specified in the "User Type" column. Find
+# how many there are of each type and store the counts in a pandas Series in the
+# user_types variable.
+#
+# Hint: What pandas function returns a Series with the counts of each unique
+# value in a column?
+filename = "../bikeshare-data/chicago.csv"
+
+df = pd.read_csv(filename)
+
+type(df)
+
+# Note that the .value_counts() method returns a pandas Series object when it
+# (the method) is called on a DataFrame.
+users_count = df["User Type"].value_counts()
+
+# This confirms that "users_count" is a pandas Series object
+type(users_count)
+
+# These integer locations return the relevant Indices  in the pandas Series
+users_count.iloc[0]
+users_count.iloc[:]
