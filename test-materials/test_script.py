@@ -5,10 +5,24 @@ import numpy as np
 import pandas as pd
 
 # File Directory Tests
-wdc_data = "./washington.csv"
+ch_data1 = "../bikeshare-data/chicago.csv"
 
-wdc_data1 = "../bikeshare-data/washington.csv"
+ch_df = pd.read_csv(ch_data1)
 
-wdc_df = pd.read_csv(wdc_data1)
+print(ch_df.head())
 
-print(type(wdc_df))
+print(ch_df.columns)
+
+print(ch_df.isnull().any())
+
+print(ch_df.describe())
+
+print(ch_df.info())
+
+print(ch_df["Gender"].value_counts())
+
+print(ch_df[["Gender", "User Type"]].value_counts())
+
+print(ch_df["Start Station"].unique())
+
+print(len(ch_df["Start Station"].unique()))
