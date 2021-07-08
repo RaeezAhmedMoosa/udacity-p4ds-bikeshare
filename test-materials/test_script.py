@@ -5,10 +5,10 @@ import numpy as np
 import pandas as pd
 
 # File Directory Tests
-nyc_data = "./new_york_city.csv"
+wdc_data = "./washington.csv"
 
-nyc_data1 = "../bikeshare-data/new_york_city.csv"
+wdc_data1 = "../bikeshare-data/washington.csv"
 
-nyc_df = pd.read_csv(nyc_data1)
+wdc_df = pd.read_csv(wdc_data1)
 
-print(type(nyc_df))
+print(type(wdc_df))

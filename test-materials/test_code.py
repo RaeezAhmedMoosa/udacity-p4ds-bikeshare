@@ -28,3 +28,10 @@ type(nyc_df)
 
 
 # Washington
+wdc_data = "./washington.csv"
+
+wdc_data1 = "../bikeshare-data/washington.csv"
+
+wdc_df = pd.read_csv(wdc_data)
+
+type(wdc_df)
