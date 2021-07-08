@@ -80,7 +80,7 @@ len(ch_df["Start Station"].unique())
 
 
 
-# Practice Problem 1
+# Practice Problem 1: Compute the Most Popular Start Hour
 #
 # Use pandas to load chicago.csv into a dataframe, and find the most frequent
 # hour when people start traveling. There isn't an hour column in this dataset,
