@@ -234,7 +234,7 @@ def load_data(city):
     # This creates a "Month" column by extracting the month from "Start Time"
     df["Month"] = df["Start Time"].dt.month
     # This creates a "Day of Week" column by extracting the day from "Start Time"
-    df["Day of Week"] = df["Start Time"].dt.dayofweek
+    df["Day of Week"] = df["Start Time"].dt.day_name(locale = "English")
     df.info()
 
 
@@ -260,7 +260,7 @@ def load_data(city, month):
     df = pd.read_csv(cities_data[city.lower()])
     df["Start Time"] = pd.to_datetime(df["Start Time"])
     df["Month"] = df["Start Time"].dt.month
-    df["Day of Week"] = df["Start Time"].dt.dayofweek
+    df["Day of Week"] = df["Start Time"].dt.day_name(locale = "English")
     # This is a List of the months covered by all the datasets
     months = ["proxy","january", "february", "march", "april", "may", "june"]
     # This takes the user inputted month and converts it into a lower case string
@@ -275,3 +275,31 @@ def load_data(city, month):
         # based on the user provided month
         df = df[df["Month"] == month]
     return df.head()
+
+
+# 4. Filter by day of week. Select rows of the dataframe that have the specified
+#    day of week and reassign this as the new dataframe. (Note: Capitalize the
+#    day parameter with the title() method to match the title case used in the
+#    day_of_week column!)
+#
+# Step 4
+
+# List containing the Days of the Week. Note that in terms of pandasSeries.dt.dayofweek
+# Monday = 0 ... Sunday = 6
+days = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
+
+for day in days:
+    print(days.index(day))
+
+
+def load_data(city, month, day):
+    df = pd.read_csv(cities_data[city.lower()])
+    df["Start Time"] = pd.to_datetime(df["Start Time"])
+    df["Month"] = df["Start Time"].dt.month
+    df["Day of Week"] = df["Start Time"].dt.day_name(locale = "English")
+    months = ["proxy", "january", "february", "march", "april", "may", "june"]
+    month = month.lower()
+    if month in months:
+        month = months.index(month)
+        df = df[df["Month"] == month]
+    return df.info(), df.head()
