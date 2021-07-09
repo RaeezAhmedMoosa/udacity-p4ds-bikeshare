@@ -204,7 +204,35 @@ def load_data(city):
     print("This is the DataFrame for:", city.title())
     print(df.info())
     print(df.head())
-    
+
 
 
 load_data("NEW YORK CITY")
+
+
+# 2. Create "month" and "day_of_week" columns. Convert the "Start Time" column to
+#    datetime and extract the month number and weekday name into separate columns
+#    using the datetime module.
+#
+# Step 2
+def load_data(city):
+    """
+    Loads data for the specified city and filters by month and day if applicable.
+
+    Args:
+        (str) city - name of the city to analyze
+        (str) month - name of the month to filter by, or "all" to apply no month filter
+        (str) day - name of the day of week to filter by, or "all" to apply no day filter
+    Returns:
+        df - pandas DataFrame containing city data filtered by month and day
+    """
+    df = pd.read_csv(cities_data[city.lower()])
+    df.info()
+    # This converts the "Start Time" column object into a datetime64 object
+    df["Start Time"] = pd.to_datetime(df["Start Time"])
+    df.info()
+    # This creates a "Month" column by extracting the month from "Start Time"
+    df["Month"] = df["Start Time"].dt.month
+    # This creates a "Day of Week" column by extracting the day from "Start Time"
+    df["Day of Week"] = df["Start Time"].dt.dayofweek
+    df.info()

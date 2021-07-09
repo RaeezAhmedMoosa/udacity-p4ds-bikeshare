@@ -23,9 +23,12 @@ def load_data(city):
         df - pandas DataFrame containing city data filtered by month and day
     """
     df = pd.read_csv(cities_data[city.lower()])
-    print("This is the DataFrame for:", city.title())
-    print(df.info())
-    print(df.head())
+    df.info()
+    df["Start Time"] = pd.to_datetime(df["Start Time"])
+    df.info()
+    df["Month"] = df["Start Time"].dt.month
+    df["Day of Week"] = df["Start Time"].dt.dayofweek
+    df.info()
+    return df.head()
 
-
-load_data("new york city")
+print(load_data("new york city"))
