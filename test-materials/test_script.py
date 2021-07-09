@@ -11,18 +11,12 @@ cities_data = {
               "washington" : "../bikeshare-data/washington.csv"
 }
 
-def load_data(city, day):
+def load_data(city):
     df = pd.read_csv(cities_data[city.lower()])
-    df["Start Time"] = pd.to_datetime(df["Start Time"])
-    df["Month"] = df["Start Time"].dt.month
-    df["Day of Week"] = df["Start Time"].dt.day_name(locale = "English")
-    #month = month.lower()
-    #if month != "all":
-        #months = ["proxy", "january", "february", "march", "april", "may", "june"]
-        #month = months.index(month)
-        #df = df[df["Month"] == month]
-    if day != "all":
-        df = df[df["Day of Week"] == day.title()]
+    print("DataFrame created for:", city.title())
+    if city.lower() in ["chicago", "new york city"]:
+        df.fillna(0, inplace=True)
+        df["Birth Year"] = df["Birth Year"].apply(np.int64)
     return df.info(), df.head()
 
-print(load_data("New York city", "TUESDAY"))
+print(load_data("ChIcAgO"))

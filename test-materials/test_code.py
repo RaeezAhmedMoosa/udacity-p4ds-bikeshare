@@ -216,16 +216,6 @@ load_data("NEW YORK CITY")
 #
 # Step 2
 def load_data(city):
-    """
-    Loads data for the specified city and filters by month and day if applicable.
-
-    Args:
-        (str) city - name of the city to analyze
-        (str) month - name of the month to filter by, or "all" to apply no month filter
-        (str) day - name of the day of week to filter by, or "all" to apply no day filter
-    Returns:
-        df - pandas DataFrame containing city data filtered by month and day
-    """
     df = pd.read_csv(cities_data[city.lower()])
     df.info()
     # This converts the "Start Time" column object into a datetime64 object
@@ -335,4 +325,25 @@ def load_data(city, month, day):
         # This Boolean Index creates a new DataFrame which is filtered based on
         # the selected day of the week
         df = df[df["Day of Week"] == day]
+    return df.info(), df.head()
+
+
+
+# I want to convert the "Birth Year" column from a float into an integer
+#
+# So I first had to implement a way in which the code can identify that is working
+# with a dataset that contains a "Birth Year" column (Chicago & NYC). I have done
+# this using an IF statement with an IN expression.
+#
+#
+def load_data(city):
+    df = pd.read_csv(cities_data[city.lower()])
+    print("DataFrame created for:", city.title())
+    # This checks if the given city is either Chicago or New York
+    if city.lower() in ["chicago", "new york city"]:
+        # This replaces all the NaN values with the integer 0
+        df.fillna(0, inplace=True)
+        # This converts the "Birth Year" column dtype into an integer, but to do
+        # so, all NaN values had to be substituted first
+        df["Birth Year"] = df["Birth Year"].apply(np.int64)
     return df.info(), df.head()
