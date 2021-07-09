@@ -11,24 +11,16 @@ cities_data = {
               "washington" : "../bikeshare-data/washington.csv"
 }
 
-def load_data(city):
-    """
-    Loads data for the specified city and filters by month and day if applicable.
-
-    Args:
-        (str) city - name of the city to analyze
-        (str) month - name of the month to filter by, or "all" to apply no month filter
-        (str) day - name of the day of week to filter by, or "all" to apply no day filter
-    Returns:
-        df - pandas DataFrame containing city data filtered by month and day
-    """
+def load_data(city, month):
     df = pd.read_csv(cities_data[city.lower()])
-    df.info()
     df["Start Time"] = pd.to_datetime(df["Start Time"])
-    df.info()
     df["Month"] = df["Start Time"].dt.month
     df["Day of Week"] = df["Start Time"].dt.dayofweek
-    df.info()
-    return df.head()
+    months = ["proxy", "january", "february", "march", "april", "may", "june"]
+    month = month.lower()
+    if month in months:
+        month = months.index(month)
+        df = df[df["Month"] == month]
+    return df.info(), df.head()
 
-print(load_data("new york city"))
+print(load_data("New York city", "JUNE"))

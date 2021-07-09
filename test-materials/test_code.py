@@ -236,3 +236,42 @@ def load_data(city):
     # This creates a "Day of Week" column by extracting the day from "Start Time"
     df["Day of Week"] = df["Start Time"].dt.dayofweek
     df.info()
+
+
+# 3. Filter by month. Since the month parameter is given as the name of the month,
+#    you'll need to first convert this to the corresponding month number. Then,
+#    select rows of the dataframe that have the specified month and reassign this
+#    as the new dataframe.
+#
+# Step 3
+
+# List consisting of the first 6 months of the year. I have included a "proxy"
+# value as the first entry to make it easier to match the index of the month
+# to their actual number in the sequence of months
+months = ["proxy","january", "february", "march", "april", "may", "june"]
+
+# This short if statement checks to see if a specific month is found in the
+# List, and if it is, it prints the month's List Index integer value
+if "january" in months:
+    print(months.index("january"))
+
+
+def load_data(city, month):
+    df = pd.read_csv(cities_data[city.lower()])
+    df["Start Time"] = pd.to_datetime(df["Start Time"])
+    df["Month"] = df["Start Time"].dt.month
+    df["Day of Week"] = df["Start Time"].dt.dayofweek
+    # This is a List of the months covered by all the datasets
+    months = ["proxy","january", "february", "march", "april", "may", "june"]
+    # This takes the user inputted month and converts it into a lower case string
+    month = month.lower()
+    # This IF statement checks to see if the given month is in the List
+    if month in months:
+        # This converts the given month into an integer
+        month = months.index(month)
+        # This confirms that the month-integer conversion has occurred
+        print(month)
+        # This uses Boolean Indexing to create a new DataFrame which is filtered
+        # based on the user provided month
+        df = df[df["Month"] == month]
+    return df.head()
