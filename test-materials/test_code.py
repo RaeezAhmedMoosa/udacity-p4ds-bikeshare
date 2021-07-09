@@ -276,6 +276,18 @@ def load_data(city, month):
         df = df[df["Month"] == month]
     return df.head()
 
+# Another version of the working code:
+def load_data(city, month):
+    df = pd.read_csv(cities_data[city.lower()])
+    df["Start Time"] = pd.to_datetime(df["Start Time"])
+    df["Month"] = df["Start Time"].dt.month
+    df["Day of Week"] = df["Start Time"].dt.day_name(locale = "English")
+    month = month.lower()
+    if month != "all":
+        months = ["proxy", "january", "february", "march", "april", "may", "june"]
+        month = months.index(month)
+        df = df[df["Month"] == month]
+    return df.info(), df.head()
 
 # 4. Filter by day of week. Select rows of the dataframe that have the specified
 #    day of week and reassign this as the new dataframe. (Note: Capitalize the
@@ -283,13 +295,6 @@ def load_data(city, month):
 #    day_of_week column!)
 #
 # Step 4
-
-# List containing the Days of the Week. Note that in terms of pandasSeries.dt.dayofweek
-# Monday = 0 ... Sunday = 6
-days = ["mon", "tue", "wed", "thu", "fri", "sat", "sun"]
-
-for day in days:
-    print(days.index(day))
 
 
 def load_data(city, month, day):
@@ -302,4 +307,33 @@ def load_data(city, month, day):
     if month in months:
         month = months.index(month)
         df = df[df["Month"] == month]
+    # This is the IF statement  that will handle the "day" parameter
+    if day != "all":
+        # This converts the given day into the proper format so that it will
+        # match the format found within the DataFrame
+        day = day.title()
+        # This Boolean Index creates a new DataFrame which is filtered based on
+        # the selected day of the week
+        df = df[df["Day of Week"] == day]
+    return df.info(), df.head()
+
+# Another working version of the code:
+def load_data(city, month, day):
+    df = pd.read_csv(cities_data[city.lower()])
+    df["Start Time"] = pd.to_datetime(df["Start Time"])
+    df["Month"] = df["Start Time"].dt.month
+    df["Day of Week"] = df["Start Time"].dt.strftime("%A")
+    months = ["proxy", "january", "february", "march", "april", "may", "june"]
+    month = month.lower()
+    if month in months:
+        month = months.index(month)
+        df = df[df["Month"] == month]
+    # This is the IF statement  that will handle the "day" parameter
+    if day != "all":
+        # This converts the given day into the proper format so that it will
+        # match the format found within the DataFrame
+        day = day.title()
+        # This Boolean Index creates a new DataFrame which is filtered based on
+        # the selected day of the week
+        df = df[df["Day of Week"] == day]
     return df.info(), df.head()
