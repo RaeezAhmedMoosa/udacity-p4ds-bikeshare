@@ -22,8 +22,7 @@ def load_data(city, day):
         #month = months.index(month)
         #df = df[df["Month"] == month]
     if day != "all":
-        day = day.title()
-        df = df[df["Day of Week"] == day]
+        df = df[df["Day of Week"] == day.title()]
     return df.info(), df.head()
 
 print(load_data("New York city", "TUESDAY"))

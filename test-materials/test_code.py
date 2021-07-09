@@ -309,12 +309,11 @@ def load_data(city, month, day):
         df = df[df["Month"] == month]
     # This is the IF statement  that will handle the "day" parameter
     if day != "all":
+        # This Boolean Index creates a new DataFrame which is filtered based on
+        # the selected day of the week.
         # This converts the given day into the proper format so that it will
         # match the format found within the DataFrame
-        day = day.title()
-        # This Boolean Index creates a new DataFrame which is filtered based on
-        # the selected day of the week
-        df = df[df["Day of Week"] == day]
+        df = df[df["Day of Week"] == day.title()]
     return df.info(), df.head()
 
 # Another working version of the code:
