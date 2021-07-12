@@ -450,3 +450,86 @@ def stats_calculator(df):
         data = df[mode_trips[stat]].mode()[0]
         print("Calculating Statistic Modal:", mode_trips[stat])
         print("Most Popular {}: {}\n".format(mode_trips[stat], data))
+
+
+# Descriptive Statistics
+#
+# 3 - Trip Duration
+#
+# I need to calculate the statistics for the following:
+#
+# 1. Total Travel Time
+# 2. Average Travel Time
+# 3. Median Travel Time
+
+# This is a List containing elements with the names of the metrics that will be
+# calculated for this part of Descriptive Statistics. Note that these names are
+# NOT found within any of the DataFrames, so they should NOT be used when
+# manipulating DataFrames
+metrics_trip = ["Total Travel Time", "Average Travel Time", "Median Travel Time"]
+
+
+def load_data(city):
+    df = pd.read_csv(cities_data[city.lower()])
+    print("DataFrame created for:", city.title())
+    if city.lower() in ["chicago", "new york city"]:
+        df.fillna(0, inplace=True)
+        df["Birth Year"] = df["Birth Year"].apply(np.int64)
+    df["Start Time"] = pd.to_datetime(df["Start Time"])
+    df["Hour"] = df["Start Time"].dt.hour
+    df["Month"] = df["Start Time"].dt.strftime("%B")
+    df["Day of Week"] = df["Start Time"].dt.strftime("%A")
+    df["Trip"] = df["Start Station"] + " to " + df["End Station"]
+    return stats_calculator(df)
+
+# This is test code. Basically I used a For Loop to cycle through the metrics_trip
+# List, and depending on the integer value of 'stat', the Loop would print a
+# specific element from the List. Again, because the names of the elements within
+# the List are not found within the DataFrames, I can't use the For Loop method
+# that I used when calculating the Modal values.
+def stats_calculator(df):
+    print("Return Successful!")
+    print(df.info())
+    for stat in range(len(metrics_trip)):
+        if stat == 0:
+            print(metrics_trip[stat])
+        elif stat == 1:
+            print(metrics_trip[stat])
+        elif stat == 2:
+            print(metrics_trip[stat])
+
+def stats_calculator(df):
+    print("Return Successful!")
+    print(df.info())
+    for stat in range(len(metrics_trip)):
+        if stat == 0:
+            # This calculates the Total Sum of "Trip Duration" in seconds
+            data = df["Trip Duration"].sum()
+            # To make the data a bit easier to understand for the user, the data
+            # is refined further, by dividing it by 3600 (1 hour = 60 minutes * 60 seconds)
+            # and then rounding off the quotient to avoid a long decimal trail.
+            # This returns the Total Sum of "Trip Duration" in hours
+            data_ref = round(data / 3600, 2)
+            print("Calculating Statistics:", metrics_trip[stat])
+            print(metrics_trip[stat], data_ref, "Hours\n")
+            # Again, to refine the data even further to make it easier for the
+            # user to understand, 'data_ref' is divided by 24 (1 day = 24 hours)
+            # to return a rounded amount of Days for "Trip Duration" Total Sum
+            data_days = round(data_ref / 24, 2)
+            print(metrics_trip[stat], data_days, "Days\n")
+        elif stat == 1:
+            # This calculates the Average "Trip Duration" in seconds
+            data = df["Trip Duration"].mean()
+            # Again, to make the data easier to understand for the user, the data
+            # is refined by dividing it by 60 (1 minute = 60 seconds)
+            data_ref = round(data / 60, 2)
+            print("Calculating Statistics:", metrics_trip[stat])
+            print(metrics_trip[stat], data_ref, "Minutes\n")
+        elif stat == 2:
+            # This calculates the Median "Trip Duration" in seconds
+            data = df["Trip Duration"].median()
+            # Again, to make the data easier to understand for the user, the data
+            # is refined by dividing it by 60 (1 minute = 60 seconds)            
+            data_ref = round(data / 60, 2)
+            print("Calculating Statistics:", metrics_trip[stat])
+            print(metrics_trip[stat], data_ref, "Minutes\n")

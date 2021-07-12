@@ -1,6 +1,7 @@
 # This file will be used as a testing ground, from which code written in the
 # "test_code" file will be run. This file will not be included in the final
 # version of the "Bikeshare" project.
+import datetime as dt
 import numpy as np
 import pandas as pd
 
@@ -25,15 +26,30 @@ def load_data(city):
     df["Trip"] = df["Start Station"] + " to " + df["End Station"]
     return stats_calculator(df)
 
-mode_trips = ["Start Station", "End Station", "Trip"]
+
+metrics_trip = ["Total Travel Time", "Average Travel Time", "Median Travel Time"]
 
 def stats_calculator(df):
     print("Return Successful!")
-    for stat in range(len(mode_trips)):
-        data = df[mode_trips[stat]].mode()[0]
-        print("Calculating Statistic Modal:", mode_trips[stat])
-        print("Most Popular {}: {}\n".format(mode_trips[stat], data))
-    return df.info()
+    print(df.info())
+    for stat in range(len(metrics_trip)):
+        if stat == 0:
+            data = df["Trip Duration"].sum()
+            data_ref = round(data / 3600, 2)
+            print("Calculating Statistics:", metrics_trip[stat])
+            print(metrics_trip[stat], data_ref, "Hours\n")
+            data_days = round(data_ref / 24, 2)
+            print(metrics_trip[stat], data_days, "Days\n")
+        elif stat == 1:
+            data = df["Trip Duration"].mean()
+            data_ref = round(data / 60, 2)
+            print("Calculating Statistics:", metrics_trip[stat])
+            print(metrics_trip[stat], data_ref, "Minutes\n")
+        elif stat == 2:
+            data = df["Trip Duration"].median()
+            data_ref = round(data / 60, 2)
+            print("Calculating Statistics:", metrics_trip[stat])
+            print(metrics_trip[stat], data_ref, "Minutes\n")
 
 
-print(load_data("Washington"))
+print(load_data("WASHington"))
