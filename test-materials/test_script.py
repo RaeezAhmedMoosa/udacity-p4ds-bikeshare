@@ -16,40 +16,56 @@ cities_data = {
 def load_data(city):
     df = pd.read_csv(cities_data[city.lower()])
     print("DataFrame created for:", city.title())
-    if city.lower() in ["chicago", "new york city"]:
-        df.fillna(0, inplace=True)
-        df["Birth Year"] = df["Birth Year"].apply(np.int64)
     df["Start Time"] = pd.to_datetime(df["Start Time"])
     df["Hour"] = df["Start Time"].dt.hour
     df["Month"] = df["Start Time"].dt.strftime("%B")
     df["Day of Week"] = df["Start Time"].dt.strftime("%A")
     df["Trip"] = df["Start Station"] + " to " + df["End Station"]
-    return stats_calculator(df)
+    return stats_calculator(df), counter(city, df), birth_stats(city, df)
 
-
-metrics_trip = ["Total Travel Time", "Average Travel Time", "Median Travel Time"]
 
 def stats_calculator(df):
-    print("Return Successful!")
+    print("stats_calculator: Return Successful!")
     print(df.info())
-    for stat in range(len(metrics_trip)):
-        if stat == 0:
-            data = df["Trip Duration"].sum()
-            data_ref = round(data / 3600, 2)
-            print("Calculating Statistics:", metrics_trip[stat])
-            print(metrics_trip[stat], data_ref, "Hours\n")
-            data_days = round(data_ref / 24, 2)
-            print(metrics_trip[stat], data_days, "Days\n")
-        elif stat == 1:
-            data = df["Trip Duration"].mean()
-            data_ref = round(data / 60, 2)
-            print("Calculating Statistics:", metrics_trip[stat])
-            print(metrics_trip[stat], data_ref, "Minutes\n")
-        elif stat == 2:
-            data = df["Trip Duration"].median()
-            data_ref = round(data / 60, 2)
-            print("Calculating Statistics:", metrics_trip[stat])
-            print(metrics_trip[stat], data_ref, "Minutes\n")
 
+user_info = ["User Type Count:", "Gender Count:"]
 
-print(load_data("WASHington"))
+def counter(city, df):
+    print(city)
+    print("counter: Return Successful!")
+    print(df.info())
+    for n in range(len(user_info)):
+        if n == 0:
+            df["User Type"].fillna("Unknown", inplace=True)
+            data = df.groupby(["User Type"])["User Type"].count()
+            print(user_info[n], data)
+            print("\n")
+        elif n == 1 and city.lower() != "washington":
+            df["Gender"].fillna("Not Specified", inplace=True)
+            data = df.groupby(["Gender"])["Gender"].count()
+            print(user_info[n], data)
+            print("\n")
+
+birth_list = ["Earliest Birth Year:", "Latest Birth Year:", "Birth Year"]
+
+def birth_stats(city, df):
+    print(city)
+    for stat in range(len(birth_list)):
+        if stat == 0 and city.lower() != "washington":
+            data = df["Birth Year"].min()
+            print(birth_list[stat], int(data))
+            print("Possible Age in 2017:", 2017 - int(data))
+            print("\n")
+        elif stat == 1 and city.lower() != "washington":
+            data = df["Birth Year"].max()
+            print(birth_list[stat], int(data))
+            print("Possible Age in 2017:", 2017 - int(data))
+            print("\n")
+        elif stat == 2 and city.lower() != "washington":
+            data = df["Birth Year"].mode()[0]
+            print("Most Popular {}: {}".format(birth_list[stat], int(data)))
+            print("Possible Age in 2017:", 2017 - int(data))
+            print("\n")
+
+#
+print(load_data("wAsHiNgToN"))

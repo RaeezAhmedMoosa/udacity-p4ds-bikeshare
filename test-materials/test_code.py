@@ -529,7 +529,135 @@ def stats_calculator(df):
             # This calculates the Median "Trip Duration" in seconds
             data = df["Trip Duration"].median()
             # Again, to make the data easier to understand for the user, the data
-            # is refined by dividing it by 60 (1 minute = 60 seconds)            
+            # is refined by dividing it by 60 (1 minute = 60 seconds)
             data_ref = round(data / 60, 2)
             print("Calculating Statistics:", metrics_trip[stat])
             print(metrics_trip[stat], data_ref, "Minutes\n")
+
+
+# Descriptive Statistics
+#
+# 4 - User Information
+#
+# I need to calculate the statistics for the following:
+#
+# 1. Counts of each User Type
+# 2. Counts of each Gender
+# 3. Earliest, Latest and Modal Birth Year
+
+def load_data(city):
+    df = pd.read_csv(cities_data[city.lower()])
+    print("DataFrame created for:", city.title())
+    # Lines 552 - 554 must be removed as this code is causing errors to occurr
+    # in the "Birth Year" stats calculation
+    if city.lower() in ["chicago", "new york city"]:
+        df["Birth Year"].fillna(0, inplace=True)
+        df["Birth Year"] = df["Birth Year"].apply(np.int64)
+    df["Start Time"] = pd.to_datetime(df["Start Time"])
+    df["Hour"] = df["Start Time"].dt.hour
+    df["Month"] = df["Start Time"].dt.strftime("%B")
+    df["Day of Week"] = df["Start Time"].dt.strftime("%A")
+    df["Trip"] = df["Start Station"] + " to " + df["End Station"]
+    return stats_calculator(df), counter(df)
+
+def stats_calculator(df):
+    # This code is added to verify the returns made by load_data()
+    print("stats_calculator: Return Successful!")
+    print(df.info())
+
+# For the Count calculations, I am using a List containing the elements that
+# will be Counted up in connection with User Information
+user_info = ["User Type Count", "Gender Count"]
+
+# Test code, For Loop printing the Index number and element of the user_info List
+for n in range(len(user_info)):
+    print(n, user_info[n])
+
+
+# To keep the code looking neater and organised, I am using a separate function
+# counter() to calculate Count statistics
+def counter(city, df):
+    print("counter: Return Successful!")
+    print(df.info())
+    for n in range(len(user_info)):
+        if n == 0:
+            # In cases where there are NaNs, the user type will be set to "Unkwown"
+            df["User Type"].fillna("Unknown", inplace=True)
+            # Similar to SQL (specifically Postgres), to obtain a count of each
+            # "User Type", the data must be first grouped by "User Type". Then
+            # the selected data "User Type" will be counted, and it will return
+            # a table containing the total count for each user type
+            #
+            # The SQL code would be something like:
+            #
+            # SELECT user_type,
+            #        COUNT(user_type) AS user_count
+            # FROM df
+            # GROUP BY 1
+            # ORDER BY 2 DESC;
+            data = df.groupby(["User Type"])["User Type"].count()
+            print(user_info[n], data)
+            # To make the data easier to read, I have included a print statement
+            # which basically acts as a linebreak. I will create a simple function
+            # line_break() when refactoring the code to replicate this code
+            print("\n")
+        elif n == 1:
+            # The provided data has NaNs for "Gender" values. In these case, the
+            # NaNs will be replaced with the value "Not Specified"
+            df["Gender"].fillna("Not Specified", inplace=True)
+            # This code follows the same logic and process as the count made for
+            # "User Type"
+            data = df.groupby(["Gender"])["Gender"].count()
+            print(user_info[n], data)
+            print("\n")
+
+
+def counter(city, df):
+    print(city.lower())
+    print("counter: Return Successful!")
+    print(df.info())
+    for n in range(len(user_info)):
+        if n == 0:
+            df["User Type"].fillna("Unknown", inplace=True)
+            data = df.groupby(["User Type"])["User Type"].count()
+            print(user_info[n], data)
+            print("\n")
+        # In testing the counter() function, when loading the "washington" DF,
+        # a KeyError was raised. This is due to the fact that the "washington"
+        # DF does not contain a "Gender" column. To prevent this error from
+        # occurring, I have used an expanded Logical condition to ensure that
+        # only Chicago and NYC will return "Gender" counts
+        elif n == 1 and city.lower() != "washington":
+            df["Gender"].fillna("Not Specified", inplace=True)
+            data = df.groupby(["Gender"])["Gender"].count()
+            print(user_info[n], data)
+            print("\n")
+
+# For the "Birth Year" statistics, I am using another List which contains elements
+# which will be used when calculating the relevant statistics
+birth_list = ["Earliest Birth Year", "Latest Birth Year", "Birth Year"]
+
+
+# To have the code be structured neatly and in an organised manner, I will use
+# birth_stats() to calculate the statistics relating to the "Birth Year" column.
+# Note that Washington does NOT contain a "Birth Year" column, thus there is no
+# "Birth Year" data for Washington. As a result, just as with counter(), there
+# are expanded Logical Statements which will handle 
+def birth_stats(city, df):
+    print(city)
+    for stat in range(len(birth_list)):
+        if stat == 0 and city.lower() != "washington":
+            data = df["Birth Year"].min()
+            print(birth_list[stat], int(data))
+            print("Possible Age in 2017:", 2017 - int(data))
+            print("\n")
+        elif stat == 1 and city.lower() != "washington":
+            data = df["Birth Year"].max()
+            print(birth_list[stat], int(data))
+            print("Possible Age in 2017:", 2017 - int(data))
+            print("\n")
+        elif stat == 2 and city.lower() != "washington":
+            data = df["Birth Year"].mode()[0]
+            print("Most Popular {}: {}".format(birth_list[stat], int(data)))
+            print("Possible Age in 2017:", 2017 - int(data))
+            print("\n")
