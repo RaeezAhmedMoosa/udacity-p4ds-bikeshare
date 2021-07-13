@@ -48,18 +48,13 @@ def data_filter(df, month=None, day=None):
 
 def stats_calculator(df):
     print("\nstats_calculator currently operating...\n")
+    for key, value in stats_info.items():
+        if key == "mode times":
+            for n in range(len(stats_info[key])):
+                data = df[value[n]].mode()[0]
+                print("Calculating statistic Modal:", value[n])
+                print("Most Popular {}: {}\n".format(value[n], data))
 
-
-
-for key, value in stats_info.items():
-    if key == "mode times":
-        print("Descriptive Stats for Modal Times.\n")
-        for n in range(len(stats_info[key])):
-            print(key, n, value[n])
-    elif key == "mode trips":
-        print("\nDescriptive Stats for Modal Trips.\n")
-        for n in range(len(stats_info[key])):
-            print(key, n, value[n])
 
 #
-#print(load_data("new york city", "june", None))
+print(load_data("new york city", "june", None))
