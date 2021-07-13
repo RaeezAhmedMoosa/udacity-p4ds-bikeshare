@@ -788,6 +788,18 @@ for key, value in stats_info.items():
     for n in range(len(stats_info[key])):
         print("Value:", n, value[n])
 
+# For the first 2 sets of Descriptive Statistics (mode times and mode trips), I
+# have modified the For Loops to be the foundation that stats_calculator will
+# use to compute all the stats for those 2 sets
+for key, value in stats_info.items():
+    if key == "mode times":
+        print("Descriptive Stats for Modal Times.\n")
+        for n in range(len(stats_info[key])):
+            print(key, n, value[n])
+    elif key == "mode trips":
+        print("\nDescriptive Stats for Modal Trips.\n")
+        for n in range(len(stats_info[key])):
+            print(key, n, value[n])
 #
 def stats_calculator(df):
     print("stats_calculator currently operating...")
