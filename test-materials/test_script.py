@@ -65,7 +65,13 @@ def stats_calculator(df):
                 print("Calculating statistic Modal", value[n])
                 print("Most Popular {}: {}".format(value[n], data))
                 print("Count: {}\n".format(count))
+        elif key == "metrics trips":
+            for n in range(len(stats_info[key])):
+                print("Key:", key)
+                print("n:", n)
+                print("Value:", value[n])
+
 
 
 #
-print(load_data("washington", None, "sunday"))
+print(load_data("chicago", None, "saturday"))
