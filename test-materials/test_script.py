@@ -14,7 +14,8 @@ cities_data = {
 stats_info = {
               "mode times" : ["Hour", "Day of Week", "Month"],
               "mode trips" : ["Start Station", "End Station", "Trip"],
-              "metrics trips" : ["Total Travel Time", "Average Travel Time", "Median Travel Time"],
+              "metrics trips" : ["Total Travel Time", "Average Travel Time",
+                                 "Standard Deviation", "Median Travel Time"],
               "user info" : ["User Type Count", "Gender Count"],
               "birth info" : ["Earliest Birth Year", "Latest Birth Year", "Birth Year"]
 }
@@ -53,18 +54,42 @@ def stats_calculator(df):
             for n in range(len(stats_info[key])):
                 data = df[value[n]].mode()[0]
                 count = df[value[n]].value_counts().iloc[0]
-                print("Calculating statistic Modal:", value[n])
+                print("Calculating statistic Modal", value[n])
                 print("\nMost Popular {}: {}".format(value[n], data))
                 print("Count: {}\n".format(count))
         elif key == "mode trips":
             for n in range(len(stats_info[key])):
                 data = df[value[n]].mode()[0]
                 count = df[value[n]].value_counts().iloc[0]
-                print("Calculating statistic Modal:", value[n])
+                print("Calculating statistic Modal", value[n])
                 print("\nMost Popular {}: {}".format(value[n], data))
                 print("Count: {}\n".format(count))
         elif key == "metrics trips":
             for n in range(len(stats_info[key])):
+                if n == 0:
+                    data = df["Trip Duration"].sum()
+                    data_ref = round(data / 3600, 2)
+                    print("Calculating Statistics", value[n])
+                    print("\n" + value[n], data_ref, "Hours")
+                    data_days = round(data_ref / 24, 2)
+                    print(value[n], data_days, "Days\n")
+                elif n == 1:
+                    data = df["Trip Duration"].mean()
+                    data_ref = round(data / 60, 2)
+                    print("Calculating Statistics", value[n])
+                    print("\n" + value[n], data_ref, "Minutes\n")
+                elif n == 2:
+                    data = df["Trip Duration"].std()
+                    data_ref = round(data /60, 2)
+                    print("Calculating Statistics", value[n])
+                    print("\n" + value[n], data_ref, "Minutes\n")
+                elif n == 3:
+                    data = df["Trip Duration"].median()
+                    data_ref = round(data / 60, 2)
+                    print("Calculating Statistics", value[n])
+                    print("\n" + value[n], data_ref, "Minutes\n")
+
+
 
 
 
@@ -73,4 +98,4 @@ def stats_calculator(df):
 
 
 #
-print(load_data("new york city", "JuNe", None))
+print(load_data("washington", "MARCH", None))

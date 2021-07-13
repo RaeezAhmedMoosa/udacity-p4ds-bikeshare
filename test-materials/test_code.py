@@ -774,10 +774,12 @@ def data_filter(df, month=None, day=None):
 stats_info = {
               "mode times" : ["Hour", "Day of Week", "Month"],
               "mode trips" : ["Start Station", "End Station", "Trip"],
-              "metrics trips" : ["Total Travel Time", "Average Travel Time", "Median Travel Time"],
+              "metrics trips" : ["Total Travel Time", "Average Travel Time",
+                                 "Standard Deviation", "Median Travel Time"],
               "user info" : ["User Type Count", "Gender Count"],
               "birth info" : ["Earliest Birth Year", "Latest Birth Year", "Birth Year"]
 }
+
 
 # This is test code, consisting of a For Loop within a For Loop (For Loop Inception)
 # to test out the use of the stats_info Dictionary. The 1st For Loop prints out
@@ -813,7 +815,7 @@ def stats_calculator(df):
                 # This extracts the count of the modal data obtained above, in
                 # order to include it with the statistic printed by the function
                 count = df[value[n]].value_counts().iloc[0]
-                print("Calculating statistic Modal:", value[n])
+                print("Calculating statistic Modal", value[n])
                 print("Most Popular {}: {}\n".format(value[n], data))
                 print("Count: {}\n".format(count))
         # This checks the Dictionary for the second Descriptive Statistics Key
@@ -821,6 +823,80 @@ def stats_calculator(df):
             for n in range(len(stats_info[key])):
                 data = df[value[n]].mode()[0]
                 count = df[value[n]].value_counts().iloc[0]
-                print("Calculating statistic Modal:", value[n])
+                print("Calculating statistic Modal", value[n])
                 print("Most Popular {}: {}".format(value[n], data))
                 print("Count: {}\n".format(count))
+        elif key == "metrics trips":
+
+# Tested and working as intended version:
+def stats_calculator(df):
+    print("\nstats_calculator currently operating...")
+    # Test Print Statement to verify that the filter is correct
+    print(df[["Day of Week", "Month"]].head())
+    for key, value in stats_info.items():
+        # This checks the Dictionary for the first Descriptive Statistics Key
+        if key == "mode times":
+            for n in range(len(stats_info[key])):
+                data = df[value[n]].mode()[0]
+                # This extracts the count of the modal data obtained above, in
+                # order to include it with the statistic printed by the function
+                # Note that I experienced a KeyError when using the Washington
+                # DataFrame where the code below was as follows:
+                #
+                # df[value[n]].value_counts()[0]
+                #
+                # I have added the integer location to be used as the Numerical
+                # Index to avoid getting the KeyError. Curiously, this is not an
+                # issue when working the with Chicago and NYC DataFrames
+                count = df[value[n]].value_counts().iloc[0]
+                print("Calculating statistic Modal", value[n])
+                print("\nMost Popular {}: {}".format(value[n], data))
+                print("Count: {}\n".format(count))
+        # This checks the Dictionary for the second Descriptive Statistics Key
+        elif key == "mode trips":
+            for n in range(len(stats_info[key])):
+                data = df[value[n]].mode()[0]
+                count = df[value[n]].value_counts().iloc[0]
+                print("Calculating statistic Modal", value[n])
+                print("\nMost Popular {}: {}".format(value[n], data))
+                print("Count: {}\n".format(count))
+        # This checks the Dictionary for the third Descriptive Statistics Key
+        elif key == "metrics trips":
+            # Note that this specific List is different from the first 2 Lists
+            # found in the stats Dictionary. With this List 'metrics trips', the
+            # names of the List elements are NOT found as column names within
+            # the DataFrame. Therefore I cannot use the same method that I have
+            # applied for the first 2 Keys + Lists in this function.
+            #
+            # As the List Elements and Column Names are different, I have to
+            # expressly use the relevant Column Name 'Trip Duration' in the code
+            # to obtain the desired Descriptive Statistics. Also, the data has
+            # been refined further in each case to make more relatable and easier
+            # for the user to understand
+            for n in range(len(stats_info[key])):
+                # 0 == "Total Travel Time"
+                if n == 0:
+                    data = df["Trip Duration"].sum()
+                    data_ref = round(data / 3600, 2)
+                    print("Calculating Statistics", value[n])
+                    print("\n" + value[n], data_ref, "Hours")
+                    data_days = round(data_ref / 24, 2)
+                    print(value[n], data_days, "Days\n")
+                # 1 == "Average Travel Time"
+                elif n == 1:
+                    data = df["Trip Duration"].mean()
+                    data_ref = round(data / 60, 2)
+                    print("Calculating Statistics", value[n])
+                    print("\n" + value[n], data_ref, "Minutes\n")
+                # 2 == "Standard Deviation"
+                elif n == 2:
+                    data = df["Trip Duration"].std()
+                    data_ref = round(data /60, 2)
+                    print("Calculating Statistics", value[n])
+                    print("\n" + value[n], data_ref, "Minutes\n")
+                # 3 == "Median Travel Time"
+                elif n == 3:
+                    data = df["Trip Duration"].median()
+                    data_ref = round(data / 60, 2)
+                    print("Calculating Statistics", value[n])
+                    print("\n" + value[n], data_ref, "Minutes\n")
