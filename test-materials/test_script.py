@@ -55,11 +55,17 @@ def stats_calculator(df):
             for n in range(len(stats_info[key])):
                 data = df[value[n]].mode()[0]
                 count = df[value[n]].value_counts()[0]
-                print("Calculating statistic Modal:", value[n])
+                print("Calculating statistic Modal", value[n])
                 print("Most Popular {}: {}".format(value[n], data))
                 print("Count: {}\n".format(count))
-            
+        elif key == "mode trips":
+            for n in range(len(stats_info[key])):
+                data = df[value[n]].mode()[0]
+                count = df[value[n]].value_counts()[0]
+                print("Calculating statistic Modal", value[n])
+                print("Most Popular {}: {}".format(value[n], data))
+                print("Count: {}\n".format(count))
 
 
 #
-print(load_data("new york city", "june", None))
+print(load_data("washington", None, "sunday"))
