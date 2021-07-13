@@ -642,7 +642,7 @@ birth_list = ["Earliest Birth Year", "Latest Birth Year", "Birth Year"]
 # birth_stats() to calculate the statistics relating to the "Birth Year" column.
 # Note that Washington does NOT contain a "Birth Year" column, thus there is no
 # "Birth Year" data for Washington. As a result, just as with counter(), there
-# are expanded Logical Statements which will handle 
+# are expanded Logical Statements which will handle
 def birth_stats(city, df):
     print(city)
     for stat in range(len(birth_list)):
@@ -661,3 +661,75 @@ def birth_stats(city, df):
             print("Most Popular {}: {}".format(birth_list[stat], int(data)))
             print("Possible Age in 2017:", 2017 - int(data))
             print("\n")
+
+
+
+
+# Filtering the DataFrame
+#
+# The user should be provided with the option of filtering the data according to
+# month or day or both (month and day)
+def load_data(city, month=None, day=None):
+    df = pd.read_csv(cities_data[city.lower()])
+    print("DataFrame created for:", city.title())
+    df["Start Time"] = pd.to_datetime(df["Start Time"])
+    df["Hour"] = df["Start Time"].dt.hour
+    df["Month"] = df["Start Time"].dt.strftime("%B")
+    df["Day of Week"] = df["Start Time"].dt.strftime("%A")
+    df["Trip"] = df["Start Station"] + " to " + df["End Station"]
+    # This sends the Loaded DataFrame to the data_filter() function for the
+    # Filtering of the DataFrame according to month, day or both
+    return data_filter(df, month, day)
+
+
+# This is the data_filter() function. I have decided to keep the loading and the
+# filtering of the data separate in terms of function. I think I learned in the
+# 'Intro to Programming' Nanodegree course that a function should have just one
+# ...well function or purpose. I feel that combining the Loading and Filtering
+# of a DataFrame in the same function will make the code hard to read and it
+# would also be more difficult to debug in case of errors
+#
+# data_filter() receives the Loaded DataFrame from the load_data() function, with
+# the filter(s) that the user wants to apply to the DataFrame. Through the use
+# of Logical Conditions, the filters are then applied to the DataFrame. This
+# data_filter() takes 3 parameters, witht the last 2 having a default of 'None'
+#
+# In this version of data_filter(), the DataFrame is returned to the user, but
+# this is only for testing purposes. In the next stage, the DataFrame will be
+# sent to the stats_calculator() function so that the Descriptive Statistics
+# can then be computed. Also, this same filtered DataFrame must be sent to the
+# counter() function for the User Info metrics to be calculated.
+def data_filter(df, month=None, day=None):
+    # Test statement for the function
+    print("data_filter return successful!")
+    # If the user has chosen to filter the DataFrame by month and not day, this
+    # code block will be run
+    if month != None and day == None:
+        # Test Print Statement
+        print("Filtering by month:", month.title())
+        # Boolean indexing to filter the data according to the chosen month
+        df = df[df["Month"] == month.title()]
+        # Test Return to confirm that the filtering was correctly performed
+        return df[["Month", "Day of Week"]].head(), df.info()
+    # If the user has chosen to filter the DataFrame by day and not month, this
+    # code block will be run
+    elif day != None and month == None:
+        # Test Print Statement
+        print("Filtering by day:", day.title())
+        # Boolean indexing to filter the data according to the chosen day
+        df = df[df["Day of Week"] == day.title()]
+        # Test Return to confirm that the filtering was correctly performed
+        return df[["Day of Week", "Month"]].head(), df.info()
+    # If the user has chosen to filter the DataFrame by day AND month, this
+    # code block will be run
+    elif month != None and day != None:
+        # Test Print Statement
+        print("Filtering by day and month:", day.title(), month.title())
+        # This is a Boolean Index which contains 2 conditions/filters. Through
+        # testing, I found that I had issues when using the 'and' keyword to
+        # connect the 2 conditions. It appears that the 2 conditions need to be
+        # enclosed in brackets (which I had done) and that the '&' keyword must
+        # be used to connect the conditions
+        df = df[(df["Day of Week"] == day.title()) & (df["Month"] == month.title())]
+        # Test Return to confirm that the filtering was correctly performed
+        return df[["Day of Week", "Month"]].head(), df.info()
