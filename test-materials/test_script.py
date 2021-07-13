@@ -11,7 +11,6 @@ cities_data = {
               "new york city" : "../bikeshare-data/new_york_city.csv",
               "washington" : "../bikeshare-data/washington.csv"
 }
-
 stats_info = {
               "mode times" : ["Hour", "Day of Week", "Month"],
               "mode trips" : ["Start Station", "End Station", "Trip"],
@@ -47,31 +46,31 @@ def data_filter(df, month=None, day=None):
         return stats_calculator(df)
 
 def stats_calculator(df):
-    print("\nstats_calculator currently operating...\n")
-    # Test Print Statement to verify that the filter is correct
+    print("\nstats_calculator currently operating...")
     print(df[["Day of Week", "Month"]].head())
     for key, value in stats_info.items():
         if key == "mode times":
             for n in range(len(stats_info[key])):
                 data = df[value[n]].mode()[0]
-                count = df[value[n]].value_counts()[0]
-                print("Calculating statistic Modal", value[n])
-                print("Most Popular {}: {}".format(value[n], data))
+                count = df[value[n]].value_counts().iloc[0]
+                print("Calculating statistic Modal:", value[n])
+                print("\nMost Popular {}: {}".format(value[n], data))
                 print("Count: {}\n".format(count))
         elif key == "mode trips":
             for n in range(len(stats_info[key])):
                 data = df[value[n]].mode()[0]
-                count = df[value[n]].value_counts()[0]
-                print("Calculating statistic Modal", value[n])
-                print("Most Popular {}: {}".format(value[n], data))
+                count = df[value[n]].value_counts().iloc[0]
+                print("Calculating statistic Modal:", value[n])
+                print("\nMost Popular {}: {}".format(value[n], data))
                 print("Count: {}\n".format(count))
         elif key == "metrics trips":
             for n in range(len(stats_info[key])):
-                print("Key:", key)
-                print("n:", n)
-                print("Value:", value[n])
+
+
+
+
 
 
 
 #
-print(load_data("chicago", None, "saturday"))
+print(load_data("new york city", "JuNe", None))
