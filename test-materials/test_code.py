@@ -733,3 +733,62 @@ def data_filter(df, month=None, day=None):
         df = df[(df["Day of Week"] == day.title()) & (df["Month"] == month.title())]
         # Test Return to confirm that the filtering was correctly performed
         return df[["Day of Week", "Month"]].head(), df.info()
+
+
+
+# Descriptive Statistics
+#
+# After the loaded DataFrame has been filtered, the program must then take the
+# DataFrame and calculate the the different Descriptive Statistics based on that
+# filtered DataFrame
+
+# Existing Code:
+def load_data(city, month=None, day=None):
+    df = pd.read_csv(cities_data[city.lower()])
+    print("DataFrame created for:", city.title())
+    df["Start Time"] = pd.to_datetime(df["Start Time"])
+    df["Hour"] = df["Start Time"].dt.hour
+    df["Month"] = df["Start Time"].dt.strftime("%B")
+    df["Day of Week"] = df["Start Time"].dt.strftime("%A")
+    df["Trip"] = df["Start Station"] + " to " + df["End Station"]
+    return data_filter(df, month, day)
+
+def data_filter(df, month=None, day=None):
+    print("data_filter return successful!")
+    if month != None and day == None:
+        print("Filtering by month:", month.title())
+        df = df[df["Month"] == month.title()]
+        return stats_calculator(df)
+    elif day != None and month == None:
+        print("Filtering by day:", day.title())
+        df = df[df["Day of Week"] == day.title()]
+        return stats_calculator(df)
+    elif month != None and day != None:
+        print("Filtering by day and month:", day.title(), month.title())
+        df = df[(df["Day of Week"] == day.title()) & (df["Month"] == month.title())]
+        return stats_calculator(df)
+
+# To make it easier to store all the different Lists that will be used by the
+# stats_calculator() and counter() functions, I have stored all the Lists in a
+# Dictionary, with the original List's variable name as the Key for each List
+stats_info = {
+              "mode times" : ["Hour", "Day of Week", "Month"],
+              "mode trips" : ["Start Station", "End Station", "Trip"],
+              "metrics trips" : ["Total Travel Time", "Average Travel Time", "Median Travel Time"],
+              "user info" : ["User Type Count", "Gender Count"],
+              "birth info" : ["Earliest Birth Year", "Latest Birth Year", "Birth Year"]
+}
+
+# This is test code, consisting of a For Loop within a For Loop (For Loop Inception)
+# to test out the use of the stats_info Dictionary. The 1st For Loop prints out
+# the Key, while the Inner For Loop prints out all the values found in the List
+# connected to that key
+for key, value in stats_info.items():
+    print("Key:", key)
+    for n in range(len(stats_info[key])):
+        print("Value:", n, value[n])
+
+#
+def stats_calculator(df):
+    print("stats_calculator currently operating...")
+    return df.info()

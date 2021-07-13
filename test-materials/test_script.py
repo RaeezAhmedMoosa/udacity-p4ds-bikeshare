@@ -12,6 +12,13 @@ cities_data = {
               "washington" : "../bikeshare-data/washington.csv"
 }
 
+stats_info = {
+              "mode times" : ["Hour", "Day of Week", "Month"],
+              "mode trips" : ["Start Station", "End Station", "Trip"],
+              "metrics trips" : ["Total Travel Time", "Average Travel Time", "Median Travel Time"],
+              "user info" : ["User Type Count", "Gender Count"],
+              "birth info" : ["Earliest Birth Year", "Latest Birth Year", "Birth Year"]
+}
 
 
 def load_data(city, month=None, day=None):
@@ -25,21 +32,29 @@ def load_data(city, month=None, day=None):
     return data_filter(df, month, day)
 
 def data_filter(df, month=None, day=None):
-    print("data_filter return successful!")
+    print("\ndata_filter currently operating...\n")
     if month != None and day == None:
         print("Filtering by month:", month.title())
         df = df[df["Month"] == month.title()]
-        return df.head(), df.info()
+        return stats_calculator(df)
     elif day != None and month == None:
         print("Filtering by day:", day.title())
         df = df[df["Day of Week"] == day.title()]
-        return df.head(), df.info()
+        return stats_calculator(df)
     elif month != None and day != None:
         print("Filtering by day and month:", day.title(), month.title())
         df = df[(df["Day of Week"] == day.title()) & (df["Month"] == month.title())]
-        return df.head(), df.info()
+        return stats_calculator(df)
 
+def stats_calculator(df):
+    print("\nstats_calculator currently operating...\n")
+    return df.info()
 
 
 #
-print(load_data("washington", "january", "FRIDAY"))
+#print(load_data("new york city", "june", "wednesday"))
+
+for key, value in stats_info.items():
+    print("Key:", key)
+    for n in range(len(stats_info[key])):
+        print("Value:", n, value[n])
