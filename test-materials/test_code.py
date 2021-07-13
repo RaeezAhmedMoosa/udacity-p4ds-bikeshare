@@ -803,4 +803,15 @@ for key, value in stats_info.items():
 #
 def stats_calculator(df):
     print("stats_calculator currently operating...")
-    return df.info()
+    # Test Print Statement to verify that the filter is correct
+    print(df[["Day of Week", "Month"]].head())
+    for key, value in stats_info.items():
+        if key == "mode times":
+            for n in range(len(stats_info[key])):
+                data = df[value[n]].mode()[0]
+                # This extracts the count of the modal data obtained above, in
+                # order to include it with the statistic printed by the function
+                count = df[value[n]].value_counts()[0]
+                print("Calculating statistic Modal:", value[n])
+                print("Most Popular {}: {}\n".format(value[n], data))
+                print("Count: {}\n".format(count))
