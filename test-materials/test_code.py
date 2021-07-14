@@ -705,7 +705,7 @@ def data_filter(df, month=None, day=None):
     # If the user has chosen to filter the DataFrame by month and not day, this
     # code block will be run
     if month != None and day == None:
-        # Test Print Statement
+        # Test Print Statement (TPS)
         print("Filtering by month:", month.title())
         # Boolean indexing to filter the data according to the chosen month
         df = df[df["Month"] == month.title()]
@@ -714,7 +714,7 @@ def data_filter(df, month=None, day=None):
     # If the user has chosen to filter the DataFrame by day and not month, this
     # code block will be run
     elif day != None and month == None:
-        # Test Print Statement
+        # TPS
         print("Filtering by day:", day.title())
         # Boolean indexing to filter the data according to the chosen day
         df = df[df["Day of Week"] == day.title()]
@@ -723,7 +723,7 @@ def data_filter(df, month=None, day=None):
     # If the user has chosen to filter the DataFrame by day AND month, this
     # code block will be run
     elif month != None and day != None:
-        # Test Print Statement
+        # TPS
         print("Filtering by day and month:", day.title(), month.title())
         # This is a Boolean Index which contains 2 conditions/filters. Through
         # testing, I found that I had issues when using the 'and' keyword to
@@ -805,7 +805,7 @@ for key, value in stats_info.items():
 #
 def stats_calculator(df):
     print("stats_calculator currently operating...")
-    # Test Print Statement to verify that the filter is correct
+    # TPS to verify that the filter is correct
     print(df[["Day of Week", "Month"]].head())
     for key, value in stats_info.items():
         # This checks the Dictionary for the first Descriptive Statistics Key
@@ -831,7 +831,7 @@ def stats_calculator(df):
 # Tested and working as intended version:
 def stats_calculator(df):
     print("\nstats_calculator currently operating...")
-    # Test Print Statement to verify that the filter is correct
+    # TPS to verify that the filter is correct
     print(df[["Day of Week", "Month"]].head())
     for key, value in stats_info.items():
         # This checks the Dictionary for the first Descriptive Statistics Key
@@ -900,3 +900,128 @@ def stats_calculator(df):
                     data_ref = round(data / 60, 2)
                     print("Calculating Statistics", value[n])
                     print("\n" + value[n], data_ref, "Minutes\n")
+
+
+
+# Existing Code
+def load_data(city, month=None, day=None):
+    df = pd.read_csv(cities_data[city.lower()])
+    print("DataFrame created for:", city.title())
+    df["Start Time"] = pd.to_datetime(df["Start Time"])
+    df["Hour"] = df["Start Time"].dt.hour
+    df["Month"] = df["Start Time"].dt.strftime("%B")
+    df["Day of Week"] = df["Start Time"].dt.strftime("%A")
+    df["Trip"] = df["Start Station"] + " to " + df["End Station"]
+    return data_filter(df, month, day)
+
+def data_filter(df, month=None, day=None):
+    print("data_filter return successful!")
+    if month != None and day == None:
+        print("Filtering by month:", month.title())
+        df = df[df["Month"] == month.title()]
+        return stats_calculator(df)
+    elif day != None and month == None:
+        print("Filtering by day:", day.title())
+        df = df[df["Day of Week"] == day.title()]
+        return stats_calculator(df)
+    elif month != None and day != None:
+        print("Filtering by day and month:", day.title(), month.title())
+        df = df[(df["Day of Week"] == day.title()) & (df["Month"] == month.title())]
+        return stats_calculator(df)
+
+def stats_calculator(df):
+    print("\nstats_calculator currently operating...")
+    print(df[["Day of Week", "Month"]].head())
+    for key, value in stats_info.items():
+        if key == "mode times":
+            for n in range(len(stats_info[key])):
+                data = df[value[n]].mode()[0]
+                count = df[value[n]].value_counts().iloc[0]
+                print("Calculating statistic Modal", value[n])
+                print("\nMost Popular {}: {}".format(value[n], data))
+                print("Count: {}\n".format(count))
+        elif key == "mode trips":
+            for n in range(len(stats_info[key])):
+                data = df[value[n]].mode()[0]
+                count = df[value[n]].value_counts().iloc[0]
+                print("Calculating statistic Modal", value[n])
+                print("\nMost Popular {}: {}".format(value[n], data))
+                print("Count: {}\n".format(count))
+        elif key == "metrics trips":
+            for n in range(len(stats_info[key])):
+                if n == 0:
+                    data = df["Trip Duration"].sum()
+                    data_ref = round(data / 3600, 2)
+                    print("Calculating Statistics", value[n])
+                    print("\n" + value[n], data_ref, "Hours")
+                    data_days = round(data_ref / 24, 2)
+                    print(value[n], data_days, "Days\n")
+                elif n == 1:
+                    data = df["Trip Duration"].mean()
+                    data_ref = round(data / 60, 2)
+                    print("Calculating Statistics", value[n])
+                    print("\n" + value[n], data_ref, "Minutes\n")
+                elif n == 2:
+                    data = df["Trip Duration"].std()
+                    data_ref = round(data /60, 2)
+                    print("Calculating Statistics", value[n])
+                    print("\n" + value[n], data_ref, "Minutes\n")
+                elif n == 3:
+                    data = df["Trip Duration"].median()
+                    data_ref = round(data / 60, 2)
+                    print("Calculating Statistics", value[n])
+                    print("\n" + value[n], data_ref, "Minutes\n")
+
+# Test Code for accessing Dictionary Key and List Values
+for key, value in stats_info.items():
+    if key == "user info":
+        for n in range(len(stats_info[key])):
+            print("Key:", key)
+            print("Element Number:", n)
+            print("Element Value:", value[n])
+
+# counter() function which will be used in the next version
+def counter(city, df):
+    # TPS for testing purposes to indicate that counter() is operating
+    print("\ncounter() currently operating...\n")
+    # TPS for verifying the current city DataFrame being used by counter()
+    print("Handling the", city.title(), "DataFrame\n")
+    for key, value in stats_info.items():
+        # This checks the Dictionary for the fourth Descriptive Statistics Key
+        if key == "user info":
+            for n in range(len(stats_info[key])):
+                # Note that the List "user info" found in the Dictionary works
+                # in the same manner as the "metrics trips" List. Thus, the values
+                # in the List are not the same as the name of the Columns in the
+                # DataFrame.
+                #
+                # Also note that List element 0 ("User Type") is applicable to
+                # all 3 cities. List element 1 ("Gender") only applies to Chicago
+                # and NYC.
+                if n == 0:
+                    # While testing this code block, I received a warning called
+                    # 'SettingwithCopyWarning'. This was not an error or exception
+                    # but a warning that a value is trying to be set on a copy
+                    # of a slice from a DataFrame.
+                    #
+                    # This was affecting the count for both "user info" elements
+                    # as the NaN replacement value was not being counted.
+                    #
+                    # To resolve this, I inserted the line below to create a
+                    # copy of the DataFrame before replacing the NaNs. This
+                    # has resolved the issue.
+                    df = df.copy()
+                    df["User Type"].fillna("Unknown", inplace=True)
+                    data = df.groupby(["User Type"])["User Type"].count()
+                    print(value[n], data)
+                    print("\n")
+                elif n == 1 and city.lower() != "washington":
+                    # This code block will only run for the Chicago and New York
+                    # City DataFrames, as Washington lacks "Gender" data
+                    df = df.copy()
+                    df["Gender"].fillna("Not Specified", inplace=True)
+                    data = df.groupby(["Gender"])["Gender"].count()
+                    print(value[n], data)
+                    print("\n")
+
+#

@@ -11,6 +11,7 @@ cities_data = {
               "new york city" : "../bikeshare-data/new_york_city.csv",
               "washington" : "../bikeshare-data/washington.csv"
 }
+
 stats_info = {
               "mode times" : ["Hour", "Day of Week", "Month"],
               "mode trips" : ["Start Station", "End Station", "Trip"],
@@ -29,22 +30,22 @@ def load_data(city, month=None, day=None):
     df["Month"] = df["Start Time"].dt.strftime("%B")
     df["Day of Week"] = df["Start Time"].dt.strftime("%A")
     df["Trip"] = df["Start Station"] + " to " + df["End Station"]
-    return data_filter(df, month, day)
+    return data_filter(city, df, month, day)
 
-def data_filter(df, month=None, day=None):
+def data_filter(city, df, month=None, day=None):
     print("\ndata_filter currently operating...\n")
     if month != None and day == None:
         print("Filtering by month:", month.title())
         df = df[df["Month"] == month.title()]
-        return stats_calculator(df)
+        return number_cruncher(city, df)
     elif day != None and month == None:
         print("Filtering by day:", day.title())
         df = df[df["Day of Week"] == day.title()]
-        return stats_calculator(df)
+        return number_cruncher(city, df)
     elif month != None and day != None:
         print("Filtering by day and month:", day.title(), month.title())
         df = df[(df["Day of Week"] == day.title()) & (df["Month"] == month.title())]
-        return stats_calculator(df)
+        return number_cruncher(city, df)
 
 def stats_calculator(df):
     print("\nstats_calculator currently operating...")
@@ -89,6 +90,24 @@ def stats_calculator(df):
                     print("Calculating Statistics", value[n])
                     print("\n" + value[n], data_ref, "Minutes\n")
 
+def counter(city, df):
+    print("\ncounter() currently operating...\n")
+    print("Handling the", city.title(), "DataFrame\n")
+    for key, value in stats_info.items():
+        if key == "user info":
+            for n in range(len(stats_info[key])):
+                if n == 0:
+                    df = df.copy()
+                    df["User Type"].fillna("Unknown", inplace=True)
+                    data = df.groupby(["User Type"])["User Type"].count()
+                    print(value[n], data)
+                    print("\n")
+                elif n == 1 and city.lower() != "washington":
+                    df = df.copy()
+                    df["Gender"].fillna("Not Specified", inplace=True)
+                    data = df.groupby(["Gender"])["Gender"].count()
+                    print(value[n], data)
+                    print("\n")
 
 
 
@@ -98,4 +117,4 @@ def stats_calculator(df):
 
 
 #
-print(load_data("washington", "MARCH", None))
+print(load_data("chicago", "JUNE", "SunDay"))
