@@ -1153,3 +1153,69 @@ for key, value in stats_info.items():
                 print("Key:", key)
                 print("Element Number:", n)
                 print("Element Value:", value[n])
+
+# birth_stats() function that will be used in the next version:
+def birth_stats(city, df):
+    # TPS for testing purposes to indicate that birth_stats() is operating
+    print("\nbirth_stats() currently operating...\n")
+    # TPS for verifying the current city DataFrame being used by birth_stats()
+    print("Handling the", city.title(), "DataFrame\n")
+    for key, value in stats_info.items():
+        # This checks the Dictionary for the fifth Descriptive Statistics Key
+        if key == "birth info":
+            # Note that washington does not contain any data relating to the
+            # "Birth Year" of users. Hence the following code blocks will only
+            # apply to Chicago and New York City
+            #
+            # The For Loop here operates in the same manner as it does for the
+            # "metrics trips" and "user info" List. However, for the last element
+            # of the "birth info" List, this element has the same name as the
+            # column "Birth Year" in the DataFrame, so for that cycle of the
+            # For Loop, the code is same as the "mode times" and "mode trips"
+            # List.
+            for n in range(len(stats_info[key])):
+                if n == 0 and city.lower() != "washington":
+                    data = df["Birth Year"].min()
+                    # I see no reason for "Birth Year" to be a float type, so this
+                    # line converts "Birth Year" into an integer type
+                    data_int = int(data)
+                    print("{}: {}".format(value[n], data_int))
+                    # To make the data a bit more relatable, I have included this
+                    # line to indicate the possible age of the user with the
+                    # minimum age. The same has been done for the maximum and
+                    # modal age later on in the code
+                    print("Possible Age in 2017:", 2017 - data_int)
+                    print("\n")
+                elif n == 1 and city.lower() != "washington":
+                    data = df["Birth Year"].max()
+                    data_int = int(data)
+                    print("{}: {}".format(value[n], data_int))
+                    print("Possible Age in 2017:", 2017 - data_int)
+                    print("\n")
+                elif n == 2 and city.lower() != "washington":
+                    # This is where the List element name matches the name of
+                    # the DataFrame column, with both being "Birth Year"
+                    data = df[value[n]].mode()[0]
+                    data_int = int(data)
+                    count = df[value[n]].value_counts().iloc[0]
+                    print("Most Popular {}: {}".format(value[n], data_int))
+                    # Since this is Modal data, to keep the consistency with
+                    # such data found in the first 2 sections of the Descriptive
+                    # Statistics, a count of the modal data is included here
+                    print("Count: {}".format(count))
+                    print("Possible Age in 2017:", 2017 - data_int)
+                    print("\n")
+
+# Updated number_cruncher() with the birth_stats() function added to the body
+def number_cruncher(city, df):
+    print("number_cruncher() currently operating...\n")
+    print("number_cruncher() is operating on the DataFrame for:", city.title())
+    stats_calculator(df)
+    print("\nstats_calculator() operation complete.")
+    counter(city, df)
+    print("\ncounter() operation complete.")
+    # The birth_stats() function will run last in terms of the functions that
+    # calculate Descriptive Statistics
+    birth_stats(city, df)
+    # TPS to indicate that the function operation is complete
+    print("\nbirth_stats() operation complete.")

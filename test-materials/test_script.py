@@ -109,25 +109,47 @@ def counter(city, df):
                     print(value[n], data)
                     print("\n")
 
+def birth_stats(city, df):
+    print("\nbirth_stats() currently operating...\n")
+    print("Handling the", city.title(), "DataFrame\n")
+    for key, value in stats_info.items():
+        if key == "birth info":
+            for n in range(len(stats_info[key])):
+                if n == 0 and city.lower() != "washington":
+                    data = df["Birth Year"].min()
+                    data_int = int(data)
+                    print("{}: {}".format(value[n], data_int))
+                    print("Possible Age in 2017:", 2017 - data_int)
+                    print("\n")
+                elif n == 1 and city.lower() != "washington":
+                    data = df["Birth Year"].max()
+                    data_int = int(data)
+                    print("{}: {}".format(value[n], data_int))
+                    print("Possible Age in 2017:", 2017 - data_int)
+                    print("\n")
+                elif n == 2 and city.lower() != "washington":
+                    data = df[value[n]].mode()[0]
+                    data_int = int(data)
+                    count = df[value[n]].value_counts().iloc[0]
+                    print("Most Popular {}: {}".format(value[n], data_int))
+                    print("Count: {}".format(count))
+                    print("Possible Age in 2017:", 2017 - data_int)
+                    print("\n")
+
+
 
 def number_cruncher(city, df):
-    print("number_cruncher() currently operating...\n")
+    print("\nnumber_cruncher() currently operating...\n")
     print("number_cruncher() is operating on the DataFrame for:", city.title())
     stats_calculator(df)
     print("\nstats_calculator() operation complete.")
     counter(city, df)
     print("\ncounter() operation complete.")
+    birth_stats(city, df)
+    print("\nbirth_stats() operation complete.")
 
 
 
 
 
-#
-#print(load_data("washington", "April", None))
-
-for key, value in stats_info.items():
-    if key == "birth info":
-            for n in range(len(stats_info[key])):
-                print("Key:", key)
-                print("Element Number:", n)
-                print("Element Value:", value[n])
+print(load_data("washington", "february", None))
