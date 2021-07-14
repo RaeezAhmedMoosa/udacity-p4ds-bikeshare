@@ -110,11 +110,17 @@ def counter(city, df):
                     print("\n")
 
 
-
+def number_cruncher(city, df):
+    print("number_cruncher() currently operating...\n")
+    print("number_cruncher() is operating on the DataFrame for:", city.title())
+    stats_calculator(df)
+    print("\nstats_calculator() operation complete.")
+    counter(city, df)
+    print("\ncounter() operation complete.")
 
 
 
 
 
 #
-print(load_data("chicago", "JUNE", "SunDay"))
+print(load_data("washington", "April", None))

@@ -1024,4 +1024,23 @@ def counter(city, df):
                     print(value[n], data)
                     print("\n")
 
+
+# To make it easier and simpler for the data to be crunched by the different
+# functions, I have created this number_cruncher() function to send the
+# returned data from data_filter() onwards.
 #
+# This function will be iterated through again to include the birth_stats()
+# function within the function's body
+def number_cruncher(city, df):
+    # TPS to verify that number_cruncher() is operating
+    print("number_cruncher() currently operating...\n")
+    # TPS to verify the current DataFrame for the specified city
+    print("number_cruncher() is operating on the DataFrame for:", city.title())
+    # This calculates the Modal data and other Descriptive Statistics
+    stats_calculator(df)
+    # TPS to indicate that the function operation is complete
+    print("\nstats_calculator() operation complete.")
+    # This calculates the Count data
+    counter(city, df)
+    # TPS to indicate that the function operation is complete
+    print("\ncounter() operation complete.")
