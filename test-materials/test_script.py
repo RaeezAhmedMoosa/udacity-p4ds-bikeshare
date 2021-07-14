@@ -123,4 +123,11 @@ def number_cruncher(city, df):
 
 
 #
-print(load_data("washington", "April", None))
+#print(load_data("washington", "April", None))
+
+for key, value in stats_info.items():
+    if key == "birth info":
+            for n in range(len(stats_info[key])):
+                print("Key:", key)
+                print("Element Number:", n)
+                print("Element Value:", value[n])
