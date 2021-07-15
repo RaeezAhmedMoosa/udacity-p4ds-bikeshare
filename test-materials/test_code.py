@@ -1415,12 +1415,21 @@ def data_filter(city, df, month=None, day=None):
 # Input to return all the input to the load_data() function
 
 
+# These are 2 Lists 'months' and 'days' that will be used by the input function(s)
+# in a While Loop to validate that the relevant input is valid
+months = ["none","january", "february", "march", "april", "may", "june"]
+
+days = ["none", "monday", "tuesday", "wednesday", "thursday", "friday",
+        "saturday", "sunday"]
+
+
 # cities data Dictionary:
 cities_data = {
               "chicago" : "../bikeshare-data/chicago.csv",
               "new york city" : "../bikeshare-data/new_york_city.csv",
               "washington" : "../bikeshare-data/washington.csv"
 }
+
 
 
 # load_data() function:
@@ -1445,8 +1454,79 @@ if city in cities_data.keys():
 elif city not in cities_data.keys():
     print("Sorry", city.title(), "is not in the database")
 
+#
+for key, value in input_info.items():
+    for n in range(len(input_info[key])):
+        print("Key", key)
+        print("Element Number:", n)
+        print("Element Value", value[n])
 
 
-# <placeholder name>() function:
+# obtain_input() function
+#
+# This function is designed to obtain the user's input values for the city, month
+# and day that the DataFrame will be created upon (city) and how the DataFrame
+# will be filtered (if at all)
 def obtain_input():
-    print("Which City would you like to view the BikeShare data for?")
+    print("\nWhich City would you like to view the BikeShare data for?\n")
+    print("The following Cities are in the database:\n")
+    # To assist the user, the function will print out the names of the cities
+    # that appear (as Keys) in the cities_data Dictionary. In this way, the user
+    # can see the cities (and their spelling) before moving on to the input prompts.
+    # Note that for this For Loop, the cities_data Dictionary has method called
+    # on it, as the default in this case is to use the Dictionary Keys
+    for key in cities_data:
+        print(key.title())
+    # Note that for all the 3 input variables, the values will be converted to
+    # lowercase by the lower() method, so that the values sync with the Dictionary
+    # and List Keys and Elements
+    city = input("\nPlease type in a city (use the full name):\n").lower()
+    # A While Loop is implemented here (and for month and day) to handle any
+    # invalid input entered by the user. Basically, if the entered input does not
+    # exist in the respective Iterable, then the loop will run again until the
+    # input is found in the Iterable.
+    while city not in cities_data.keys():
+        print("\nInvalid Input, please try again.\n")
+        city = input("\nPlease type in a city (use the full name):\n").lower()
+    # TPS to verify that the 'city' input is correct
+    print(city)
+    # TPS to verify input entered at this stage of the function
+    print("\nInput so far City: {}".format(city))
+    # In the future version of the program, I think I will need to create a
+    # separate function for each of the input values that are required for this
+    # program. It will clear up the code and make it easer to read and understand
+    print("\nWhich month would you like to use to view the Bikeshare data?\n")
+    # This 'none' value needs to be synchronised with the data_filter() function
+    # as currently the values being used for no filters is literally the None
+    # value, which is not a string.
+    print("Please type 'none' if you don't want to filter by month\n")
+    print("The database covers the following months:\n")
+    # To avoid confusion, the first element of the months List 'none' is excluded
+    # when the code below is displayed to the user
+    print(months[1:])
+    month = input("\nPlease type in a month (use the full name):\n").lower()
+    while month not in months:
+        print("\nInvalid Input, please try again.\n")
+        month = input("\nPlease type in a month (use the full name):\n").lower()
+    # TPS to verify that the 'month' input is correct
+    print(month)
+    # TPS to verify input entered at this stage of the function
+    print("\nInput so far City: {}, Month: {}".format(city, month))
+    print("\nWhich day would you like to use to view the Bikeshare data?\n")
+    # This 'none' value needs to be synchronised with the data_filter() function
+    # as currently the values being used for no filters is literally the None
+    # value, which is not a string.
+    print("Please type 'none' if you don't want to filter by day\n")
+    print("The database covers the following days:\n")
+    # To avoid confusion, the first element of the days List 'none' is excluded
+    # when the code below is displayed to the user
+    print(days[1:])
+    day = input("\nPlease type in a day (use the full name):\n").lower()
+    while day not in days:
+        print("\nInvalid Input, please try again.\n")
+        day = input("\nPlease type in a day (use the full name):\n").lower()
+    # TPS to verify that the 'day' input is correct
+    print(day)
+    # TPS to verify input entered at this stage of the function
+    print("\nInput so far City: {}, Month: {}, Day: {}".format(city, month, day))
+    print("\nReady to send Input data to the load_data() function!")

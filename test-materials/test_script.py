@@ -6,6 +6,12 @@ import numpy as np
 import pandas as pd
 
 # Practice Problem 3
+months = ["none","january", "february", "march", "april", "may", "june"]
+
+days = ["none", "monday", "tuesday", "wednesday", "thursday", "friday",
+        "saturday", "sunday"]
+
+
 cities_data = {
               "chicago" : "../bikeshare-data/chicago.csv",
               "new york city" : "../bikeshare-data/new_york_city.csv",
@@ -155,16 +161,44 @@ def number_cruncher(city, df):
     print("\nbirth_stats() operation complete.")
 
 
+def obtain_input():
+    print("\nWhich City would you like to view the BikeShare data for?\n")
+    print("The following Cities are in the database:\n")
+    for key in cities_data:
+        print(key.title())
+    city = input("\nPlease type in a city (use the full name):\n").lower()
+    while city not in cities_data.keys():
+        print("\nInvalid Input, please try again.\n")
+        city = input("\nPlease type in a city (use the full name):\n").lower()
+    print(city)
+    print("\nInput so far City: {}".format(city))
+    print("\nWhich month would you like to use to view the Bikeshare data?\n")
+    print("Please type 'none' if you don't want to filter by month\n")
+    print("The database covers the following months:\n")
+    print(months[1:])
+    month = input("\nPlease type in a month (use the full name):\n").lower()
+    while month not in months:
+        print("\nInvalid Input, please try again.\n")
+        month = input("\nPlease type in a month (use the full name):\n").lower()
+    print(month)
+    print("\nInput so far City: {}, Month: {}".format(city, month))
+    print("\nWhich day would you like to use to view the Bikeshare data?\n")
+    print("Please type 'none' if you don't want to filter by day\n")
+    print("The database covers the following days:\n")
+    print(days[1:])
+    day = input("\nPlease type in a day (use the full name):\n").lower()
+    while day not in days:
+        print("\nInvalid Input, please try again.\n")
+        day = input("\nPlease type in a day (use the full name):\n").lower()
+    print(day)
+    print("\nInput so far City: {}, Month: {}, Day: {}".format(city, month, day))
+    print("\nReady to send Input data to the load_data() function!")
 
+
+
+
+
+obtain_input()
 
 
 #print(load_data("WASHINGTON"))
-
-print("The following Cities are in the database:\n")
-for key in cities_data:
-    print(key.title())
-city = input("Please type in a city (use the full name):\n").lower()
-if city in cities_data.keys():
-        print("Great!", city.title(), "is in the database!")
-elif city not in cities_data.keys():
-    print("Sorry", city.title(), "is not in the database")   
