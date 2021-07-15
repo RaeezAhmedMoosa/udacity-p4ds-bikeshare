@@ -32,6 +32,7 @@ def load_data(city, month=None, day=None):
     df["Trip"] = df["Start Station"] + " to " + df["End Station"]
     return data_filter(city, df, month, day)
 
+
 def data_filter(city, df, month=None, day=None):
     print("\ndata_filter currently operating...\n")
     if month != None and day == None:
@@ -46,9 +47,13 @@ def data_filter(city, df, month=None, day=None):
         print("Filtering by day and month:", day.title(), month.title())
         df = df[(df["Day of Week"] == day.title()) & (df["Month"] == month.title())]
         return number_cruncher(city, df)
+    elif month == None and day == None:
+        print("No Filters are being applied")
+        return number_cruncher(city, df)
+
 
 def stats_calculator(df):
-    print("\nstats_calculator currently operating...")
+    print("\nstats_calculator() currently operating...\n")
     print(df[["Day of Week", "Month"]].head())
     for key, value in stats_info.items():
         if key == "mode times":
@@ -90,6 +95,7 @@ def stats_calculator(df):
                     print("Calculating Statistics", value[n])
                     print("\n" + value[n], data_ref, "Minutes\n")
 
+
 def counter(city, df):
     print("\ncounter() currently operating...\n")
     print("Handling the", city.title(), "DataFrame\n")
@@ -108,6 +114,7 @@ def counter(city, df):
                     data = df.groupby(["Gender"])["Gender"].count()
                     print(value[n], data)
                     print("\n")
+
 
 def birth_stats(city, df):
     print("\nbirth_stats() currently operating...\n")
@@ -137,7 +144,6 @@ def birth_stats(city, df):
                     print("\n")
 
 
-
 def number_cruncher(city, df):
     print("\nnumber_cruncher() currently operating...\n")
     print("number_cruncher() is operating on the DataFrame for:", city.title())
@@ -152,4 +158,4 @@ def number_cruncher(city, df):
 
 
 
-print(load_data("washington", "february", None))
+print(load_data("WASHINGTON"))
