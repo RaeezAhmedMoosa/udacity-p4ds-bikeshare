@@ -1533,3 +1533,30 @@ def obtain_input():
 
 
 # obtain_input() - This version sends the input to the load_data() function
+def obtain_input():
+    print("\nWhich City would you like to view the BikeShare data for?\n")
+    print("The following Cities are in the database:\n")
+    for key in cities_data:
+        print(key.title())
+    city = input("\nPlease type in a city (use the full name):\n").lower()
+    while city not in cities_data.keys():
+        print("\nInvalid Input, please try again.\n")
+        city = input("\nPlease type in a city (use the full name):\n").lower()
+    print("\nWhich month would you like to use to view the Bikeshare data?\n")
+    print("Please type 'none' if you don't want to filter by month\n")
+    print("The database covers the following months:\n")
+    print(months[1:])
+    month = input("\nPlease type in a month (use the full name):\n").lower()
+    while month not in months:
+        print("\nInvalid Input, please try again.\n")
+        month = input("\nPlease type in a month (use the full name):\n").lower()
+    print("\nWhich day would you like to use to view the Bikeshare data?\n")
+    print("Please type 'none' if you don't want to filter by day\n")
+    print("The database covers the following days:\n")
+    print(days[1:])
+    day = input("\nPlease type in a day (use the full name):\n").lower()
+    while day not in days:
+        print("\nInvalid Input, please try again.\n")
+        day = input("\nPlease type in a day (use the full name):\n").lower()
+    print("\nInput so far City: {}, Month: {}, Day: {}".format(city, month, day))
+    load_data(city, month, day)
