@@ -28,9 +28,9 @@ stats_info = {
 }
 
 
-def load_data(city, month=None, day=None):
-    df = pd.read_csv(cities_data[city.lower()])
-    print("DataFrame created for:", city.title())
+def load_data(city, month="none", day="none"):
+    df = pd.read_csv(cities_data[city])
+    print("\nDataFrame created for:", city.title())
     df["Start Time"] = pd.to_datetime(df["Start Time"])
     df["Hour"] = df["Start Time"].dt.hour
     df["Month"] = df["Start Time"].dt.strftime("%B")
@@ -39,21 +39,21 @@ def load_data(city, month=None, day=None):
     data_filter(city, df, month, day)
 
 
-def data_filter(city, df, month=None, day=None):
+def data_filter(city, df, month="none", day="none"):
     print("\ndata_filter currently operating...\n")
-    if month != None and day == None:
+    if month != "none" and day == "none":
         print("Filtering by month:", month.title())
         df = df[df["Month"] == month.title()]
         number_cruncher(city, df)
-    elif day != None and month == None:
+    elif day != "none" and month == "none":
         print("Filtering by day:", day.title())
         df = df[df["Day of Week"] == day.title()]
         number_cruncher(city, df)
-    elif month != None and day != None:
+    elif month != "none" and day != "none":
         print("Filtering by day and month:", day.title(), month.title())
         df = df[(df["Day of Week"] == day.title()) & (df["Month"] == month.title())]
         number_cruncher(city, df)
-    elif month == None and day == None:
+    elif month == "none" and day == "none":
         print("No Filters are being applied")
         number_cruncher(city, df)
 
@@ -192,13 +192,12 @@ def obtain_input():
         day = input("\nPlease type in a day (use the full name):\n").lower()
     print(day)
     print("\nInput so far City: {}, Month: {}, Day: {}".format(city, month, day))
-    print("\nReady to send Input data to the load_data() function!")
+    load_data(city, month, day)
 
 
 
 
+obtain_input()
 
-#obtain_input()
 
-
-print(load_data("new york city", None, "FRiDaY"))
+#print(load_data("new york city", None, "FRiDaY"))

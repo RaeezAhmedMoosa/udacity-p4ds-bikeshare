@@ -1560,3 +1560,19 @@ def obtain_input():
         day = input("\nPlease type in a day (use the full name):\n").lower()
     print("\nInput so far City: {}, Month: {}, Day: {}".format(city, month, day))
     load_data(city, month, day)
+
+
+# Iterated version of load_data() function - Changed to sync with obtain_input()
+#
+# Note that previous versions of load_data() had default values of None for the
+# month and day Parameters. In order to be compatible with the obtain_input()
+# function, these default values have been changed to the string 'none'
+def load_data(city, month="none", day="none"):
+    df = pd.read_csv(cities_data[city])
+    print("\nDataFrame created for:", city.title())
+    df["Start Time"] = pd.to_datetime(df["Start Time"])
+    df["Hour"] = df["Start Time"].dt.hour
+    df["Month"] = df["Start Time"].dt.strftime("%B")
+    df["Day of Week"] = df["Start Time"].dt.strftime("%A")
+    df["Trip"] = df["Start Station"] + " to " + df["End Station"]
+    data_filter(city, df, month, day)
