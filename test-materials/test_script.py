@@ -2,6 +2,8 @@
 # "test_code" file will be run. This file will not be included in the final
 # version of the "Bikeshare" project.
 import datetime as dt
+import time as tm
+import sys
 import numpy as np
 import pandas as pd
 
@@ -28,9 +30,15 @@ stats_info = {
 }
 
 
+def type_print(text):
+    for ch in text:
+        print(ch, end='')
+        sys.stdout.flush()
+        tm.sleep(0.05)
+
 def load_data(city, month="none", day="none"):
     df = pd.read_csv(cities_data[city])
-    print("\nDataFrame created for:", city.title())
+    type_print("\nDataFrame created for: " + city.title())
     df["Start Time"] = pd.to_datetime(df["Start Time"])
     df["Hour"] = df["Start Time"].dt.hour
     df["Month"] = df["Start Time"].dt.strftime("%B")
@@ -172,10 +180,11 @@ def number_cruncher(city, df):
 
 
 def obtain_input():
-    print("\nWhich City would you like to view the BikeShare data for?\n")
-    print("The following Cities are in the database:\n")
+    type_print("\nWhich City would you like to view the BikeShare data for?\n")
+    type_print("The following Cities are in the database:\n")
     for key in cities_data:
-        print(key.title())
+        type_print(key.title())
+        type_print("\n")
     city = input("\nPlease type in a city (use the full name):\n").lower()
     while city not in cities_data.keys():
         print("\nInvalid Input, please try again.\n")

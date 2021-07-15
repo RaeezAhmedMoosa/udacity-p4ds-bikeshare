@@ -4,6 +4,8 @@
 
 # Imported Libraries and Packages:
 import datetime as dt
+import time as tm
+import sys
 import numpy as np
 import pandas as pd
 
@@ -32,6 +34,36 @@ stats_info = {
 
 
 # Functions section
+
+# type_print() function:
+def type_print(text):
+    '''
+    This type_print function is an idea that I had which I think came from the
+    Fallout game seris, with the computer terminals in the game generating
+    characters on the screen character-by-character. I thought it would look
+    cool for certain sections to have this type writer sort of output so I wrote
+    this function.
+
+    I got the idea from a google search using the phrase "python print statement
+    one character at a time". The following link had an answer to my query:
+
+    Quora https://www.quora.com/How-do-I-print-one-character-at-a-time-in-the-terminal-using-Python
+    (accessed 15 July 2021)
+
+    INPUT:
+    text: Any string, but please note that you cannot use the ',' character to
+          join any variable to a print statement. Instead replace the ',' with
+          the concatenation operator '+'
+
+    OUTPUT:
+    text: Same string as the INPUT but with each character in the string being
+          printed one at a time.
+    '''
+    for ch in test:
+        print(ch, end='')
+        sys.stdout.flush()
+        tm.sleep(0.05)
+
 
 # load_data()
 def load_data(city, month="none", day="none"):
