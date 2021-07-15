@@ -40,7 +40,7 @@ def load_data(city, month="none", day="none"):
 
 
 def data_filter(city, df, month="none", day="none"):
-    print("\ndata_filter currently operating...\n")
+    print("\ndata_filter() currently operating...\n")
     if month != "none" and day == "none":
         print("Filtering by month:", month.title())
         df = df[df["Month"] == month.title()]
@@ -58,48 +58,58 @@ def data_filter(city, df, month="none", day="none"):
         number_cruncher(city, df)
 
 
+def dict_mode_looper(df, key, value):
+    print("\ndict_mode_looper() currently operating...\n")
+    if key == "mode times":
+        for n in range(len(stats_info[key])):
+            data = df[value[n]].mode()[0]
+            count = df[value[n]].value_counts().iloc[0]
+            print("Calculating statistic Modal", value[n])
+            print("\nMost Popular {}: {}".format(value[n], data))
+            print("Count: {}\n".format(count))
+    elif key == "mode trips":
+        for n in range(len(stats_info[key])):
+            data = df[value[n]].mode()[0]
+            count = df[value[n]].value_counts().iloc[0]
+            print("Calculating statistic Modal", value[n])
+            print("\nMost Popular {}: {}".format(value[n], data))
+            print("Count: {}\n".format(count))
+
+
+def dict_metrics_looper(df, key, value):
+    print("\ndict_metrics_looper() currently operating...\n")
+    if key == "metrics trips":
+        for n in range(len(stats_info[key])):
+            if n == 0:
+                data = df["Trip Duration"].sum()
+                data_ref = round(data / 3600, 2)
+                print("Calculating Statistics", value[n])
+                print("\n" + value[n], data_ref, "Hours")
+                data_days = round(data_ref / 24, 2)
+                print(value[n], data_days, "Days\n")
+            elif n == 1:
+                data = df["Trip Duration"].mean()
+                data_ref = round(data / 60, 2)
+                print("Calculating Statistics", value[n])
+                print("\n" + value[n], data_ref, "Minutes\n")
+            elif n == 2:
+                data = df["Trip Duration"].std()
+                data_ref = round(data /60, 2)
+                print("Calculating Statistics", value[n])
+                print("\n" + value[n], data_ref, "Minutes\n")
+            elif n == 3:
+                data = df["Trip Duration"].median()
+                data_ref = round(data / 60, 2)
+                print("Calculating Statistics", value[n])
+                print("\n" + value[n], data_ref, "Minutes\n")
+
+
 def stats_calculator(df):
     print("\nstats_calculator() currently operating...\n")
     print(df[["Day of Week", "Month"]].head())
     for key, value in stats_info.items():
-        if key == "mode times":
-            for n in range(len(stats_info[key])):
-                data = df[value[n]].mode()[0]
-                count = df[value[n]].value_counts().iloc[0]
-                print("Calculating statistic Modal", value[n])
-                print("\nMost Popular {}: {}".format(value[n], data))
-                print("Count: {}\n".format(count))
-        elif key == "mode trips":
-            for n in range(len(stats_info[key])):
-                data = df[value[n]].mode()[0]
-                count = df[value[n]].value_counts().iloc[0]
-                print("Calculating statistic Modal", value[n])
-                print("\nMost Popular {}: {}".format(value[n], data))
-                print("Count: {}\n".format(count))
-        elif key == "metrics trips":
-            for n in range(len(stats_info[key])):
-                if n == 0:
-                    data = df["Trip Duration"].sum()
-                    data_ref = round(data / 3600, 2)
-                    print("Calculating Statistics", value[n])
-                    print("\n" + value[n], data_ref, "Hours")
-                    data_days = round(data_ref / 24, 2)
-                    print(value[n], data_days, "Days\n")
-                elif n == 1:
-                    data = df["Trip Duration"].mean()
-                    data_ref = round(data / 60, 2)
-                    print("Calculating Statistics", value[n])
-                    print("\n" + value[n], data_ref, "Minutes\n")
-                elif n == 2:
-                    data = df["Trip Duration"].std()
-                    data_ref = round(data /60, 2)
-                    print("Calculating Statistics", value[n])
-                    print("\n" + value[n], data_ref, "Minutes\n")
-                elif n == 3:
-                    data = df["Trip Duration"].median()
-                    data_ref = round(data / 60, 2)
-                    print("Calculating Statistics", value[n])
-                    print("\n" + value[n], data_ref, "Minutes\n")
+        dict_mode_looper(df, key, value)
+        dict_metrics_looper(df, key, value)
 
 
 def counter(city, df):
