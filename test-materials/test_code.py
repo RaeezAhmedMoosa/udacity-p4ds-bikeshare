@@ -1258,8 +1258,23 @@ def load_data(city, month=None, day=None):
 
 
 # Insert iterated data_filter() function here
-
-
+def data_filter(city, df, month=None, day=None):
+    print("\ndata_filter currently operating...\n")
+    if month != None and day == None:
+        print("Filtering by month:", month.title())
+        df = df[df["Month"] == month.title()]
+        return number_cruncher(city, df)
+    elif day != None and month == None:
+        print("Filtering by day:", day.title())
+        df = df[df["Day of Week"] == day.title()]
+        return number_cruncher(city, df)
+    elif month != None and day != None:
+        print("Filtering by day and month:", day.title(), month.title())
+        df = df[(df["Day of Week"] == day.title()) & (df["Month"] == month.title())]
+        return number_cruncher(city, df)
+    elif month == None and day == None:
+        print("No Filters are being applied")
+        return number_cruncher(city, df)
 
 
 def stats_calculator(df):
@@ -1389,3 +1404,49 @@ def data_filter(city, df, month=None, day=None):
         print("No Filters are being applied")
         # This sends the unfiltered DataFrame onwards to number_cruncher()
         return number_cruncher(city, df)
+
+
+
+# Obtaining the User's input
+#
+# This section is focused on the code for everything relating to the user's Input
+# which will be used in order to make this program interactive. At this stage, I
+# think it will be a good idea for the function dealing with obtaining the user's
+# Input to return all the input to the load_data() function
+
+
+# cities data Dictionary:
+cities_data = {
+              "chicago" : "../bikeshare-data/chicago.csv",
+              "new york city" : "../bikeshare-data/new_york_city.csv",
+              "washington" : "../bikeshare-data/washington.csv"
+}
+
+
+# load_data() function:
+def load_data(city, month=None, day=None):
+    df = pd.read_csv(cities_data[city.lower()])
+    print("DataFrame created for:", city.title())
+    df["Start Time"] = pd.to_datetime(df["Start Time"])
+    df["Hour"] = df["Start Time"].dt.hour
+    df["Month"] = df["Start Time"].dt.strftime("%B")
+    df["Day of Week"] = df["Start Time"].dt.strftime("%A")
+    df["Trip"] = df["Start Station"] + " to " + df["End Station"]
+    return data_filter(city, df, month, day)
+
+
+# test code section:
+print("The following Cities are in the database:\n")
+for key in cities_data:
+    print(key.title())
+city = input("Please type in a city (use the full name):\n").lower()
+if city in cities_data.keys():
+        print("Great!", city.title(), "is in the database!")
+elif city not in cities_data.keys():
+    print("Sorry", city.title(), "is not in the database")
+
+
+
+# <placeholder name>() function:
+def obtain_input():
+    print("Which City would you like to view the BikeShare data for?")

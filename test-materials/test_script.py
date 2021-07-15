@@ -158,4 +158,13 @@ def number_cruncher(city, df):
 
 
 
-print(load_data("WASHINGTON"))
+#print(load_data("WASHINGTON"))
+
+print("The following Cities are in the database:\n")
+for key in cities_data:
+    print(key.title())
+city = input("Please type in a city (use the full name):\n").lower()
+if city in cities_data.keys():
+        print("Great!", city.title(), "is in the database!")
+elif city not in cities_data.keys():
+    print("Sorry", city.title(), "is not in the database")   
