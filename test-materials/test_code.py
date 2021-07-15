@@ -1254,7 +1254,7 @@ def load_data(city, month=None, day=None):
     df["Month"] = df["Start Time"].dt.strftime("%B")
     df["Day of Week"] = df["Start Time"].dt.strftime("%A")
     df["Trip"] = df["Start Station"] + " to " + df["End Station"]
-    return data_filter(city, df, month, day)
+    data_filter(city, df, month, day)
 
 
 # Insert iterated data_filter() function here
@@ -1263,18 +1263,18 @@ def data_filter(city, df, month=None, day=None):
     if month != None and day == None:
         print("Filtering by month:", month.title())
         df = df[df["Month"] == month.title()]
-        return number_cruncher(city, df)
+        number_cruncher(city, df)
     elif day != None and month == None:
         print("Filtering by day:", day.title())
         df = df[df["Day of Week"] == day.title()]
-        return number_cruncher(city, df)
+        number_cruncher(city, df)
     elif month != None and day != None:
         print("Filtering by day and month:", day.title(), month.title())
         df = df[(df["Day of Week"] == day.title()) & (df["Month"] == month.title())]
-        return number_cruncher(city, df)
+        number_cruncher(city, df)
     elif month == None and day == None:
         print("No Filters are being applied")
-        return number_cruncher(city, df)
+        number_cruncher(city, df)
 
 
 def stats_calculator(df):
@@ -1386,15 +1386,15 @@ def data_filter(city, df, month=None, day=None):
     if month != None and day == None:
         print("Filtering by month:", month.title())
         df = df[df["Month"] == month.title()]
-        return number_cruncher(city, df)
+        number_cruncher(city, df)
     elif day != None and month == None:
         print("Filtering by day:", day.title())
         df = df[df["Day of Week"] == day.title()]
-        return number_cruncher(city, df)
+        number_cruncher(city, df)
     elif month != None and day != None:
         print("Filtering by day and month:", day.title(), month.title())
         df = df[(df["Day of Week"] == day.title()) & (df["Month"] == month.title())]
-        return number_cruncher(city, df)
+        number_cruncher(city, df)
     # This code block will allow the program to work on the unfiltered DataFrame.
     # Note that the None values will have to be changed in the next iteration
     # of this function when another function is created that will retrieve the
@@ -1403,7 +1403,7 @@ def data_filter(city, df, month=None, day=None):
         # TPS to verify that this Code Block is running
         print("No Filters are being applied")
         # This sends the unfiltered DataFrame onwards to number_cruncher()
-        return number_cruncher(city, df)
+        number_cruncher(city, df)
 
 
 
@@ -1441,7 +1441,7 @@ def load_data(city, month=None, day=None):
     df["Month"] = df["Start Time"].dt.strftime("%B")
     df["Day of Week"] = df["Start Time"].dt.strftime("%A")
     df["Trip"] = df["Start Station"] + " to " + df["End Station"]
-    return data_filter(city, df, month, day)
+    data_filter(city, df, month, day)
 
 
 # test code section:
@@ -1530,3 +1530,6 @@ def obtain_input():
     # TPS to verify input entered at this stage of the function
     print("\nInput so far City: {}, Month: {}, Day: {}".format(city, month, day))
     print("\nReady to send Input data to the load_data() function!")
+
+
+# obtain_input() - This version sends the input to the load_data() function

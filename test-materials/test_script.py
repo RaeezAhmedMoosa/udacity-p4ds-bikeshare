@@ -36,7 +36,7 @@ def load_data(city, month=None, day=None):
     df["Month"] = df["Start Time"].dt.strftime("%B")
     df["Day of Week"] = df["Start Time"].dt.strftime("%A")
     df["Trip"] = df["Start Station"] + " to " + df["End Station"]
-    return data_filter(city, df, month, day)
+    data_filter(city, df, month, day)
 
 
 def data_filter(city, df, month=None, day=None):
@@ -44,18 +44,18 @@ def data_filter(city, df, month=None, day=None):
     if month != None and day == None:
         print("Filtering by month:", month.title())
         df = df[df["Month"] == month.title()]
-        return number_cruncher(city, df)
+        number_cruncher(city, df)
     elif day != None and month == None:
         print("Filtering by day:", day.title())
         df = df[df["Day of Week"] == day.title()]
-        return number_cruncher(city, df)
+        number_cruncher(city, df)
     elif month != None and day != None:
         print("Filtering by day and month:", day.title(), month.title())
         df = df[(df["Day of Week"] == day.title()) & (df["Month"] == month.title())]
-        return number_cruncher(city, df)
+        number_cruncher(city, df)
     elif month == None and day == None:
         print("No Filters are being applied")
-        return number_cruncher(city, df)
+        number_cruncher(city, df)
 
 
 def stats_calculator(df):
@@ -198,7 +198,7 @@ def obtain_input():
 
 
 
-obtain_input()
+#obtain_input()
 
 
-#print(load_data("WASHINGTON"))
+print(load_data("new york city", None, "FRiDaY"))
