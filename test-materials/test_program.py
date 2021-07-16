@@ -39,7 +39,7 @@ stats_info = {
 def type_print(text):
     '''
     This type_print function is an idea that I had which I think came from the
-    Fallout game seris, with the computer terminals in the game generating
+    Fallout game series, with the computer terminals in the game generating
     characters on the screen character-by-character. I thought it would look
     cool for certain sections to have this type writer sort of output so I wrote
     this function.
@@ -68,7 +68,7 @@ def type_print(text):
 # load_data()
 def load_data(city, month="none", day="none"):
     df = pd.read_csv(cities_data[city])
-    print("\nDataFrame created for:", city.title())
+    type_print("\nDataFrame created for:" + city.title())
     df["Start Time"] = pd.to_datetime(df["Start Time"])
     df["Hour"] = df["Start Time"].dt.hour
     df["Month"] = df["Start Time"].dt.strftime("%B")
@@ -197,3 +197,75 @@ def stats_calculator(df):
         # reduced from 24 Lines to 6 Lines
         dict_mode_looper(df, key, value)
         dict_metrics_looper(df, key, value)
+
+
+# obtain_input() test_code version:
+def obtain_input():
+    print("\nWhich City would you like to view the BikeShare data for?\n")
+    print("The following Cities are in the database:\n")
+    for key in cities_data:
+        print(key.title())
+    city = input("\nPlease type in a city (use the full name):\n").lower()
+    while city not in cities_data.keys():
+        print("\nInvalid Input, please try again.\n")
+        city = input("\nPlease type in a city (use the full name):\n").lower()
+    print("\nWhich month would you like to use to view the Bikeshare data?\n")
+    print("Please type 'none' if you don't want to filter by month\n")
+    print("The database covers the following months:\n")
+    print(months[1:])
+    month = input("\nPlease type in a month (use the full name):\n").lower()
+    while month not in months:
+        print("\nInvalid Input, please try again.\n")
+        month = input("\nPlease type in a month (use the full name):\n").lower()
+    print("\nWhich day would you like to use to view the Bikeshare data?\n")
+    print("Please type 'none' if you don't want to filter by day\n")
+    print("The database covers the following days:\n")
+    print(days[1:])
+    day = input("\nPlease type in a day (use the full name):\n").lower()
+    while day not in days:
+        print("\nInvalid Input, please try again.\n")
+        day = input("\nPlease type in a day (use the full name):\n").lower()
+    print("\nInput so far City: {}, Month: {}, Day: {}".format(city, month, day))
+    load_data(city, month, day)
+
+# obtain_input() test_program version 1:
+def obtain_input():
+    # The type_print() function will only be implemented for input related text
+    # strings only, as testing type_print() with the other functions resulted in
+    # numerous formatting issues and exceptions being raised
+    type_print("\nWhich City would you like to view the BikeShare data for?\n")
+    type_print("\nThe following Cities are in the database:\n")
+    print("\n")
+    #print_pause()
+    for key in cities_data:
+        print(key.title(), "\n")
+    #print_pause()
+    city = input("\nPlease type in a city (use the full name):\n").lower()
+    while city not in cities_data.keys():
+        type_print("\nInvalid Input, please try again.\n")
+        city = input("\nPlease type in a city (use the full name):\n").lower()
+    type_print("\nWhich month would you like to use to view the Bikeshare data?\n")
+    type_print("\nPlease type 'none' if you don't want to filter by month\n")
+    type_print("\nThe database covers the following months:\n")
+    #print_pause()
+    # Attempting to use type_print() below results in a string being printed
+    # with all the months in one line, with no spaces separating them. Thus avoid
+    # using type_print for anything other than plain text.
+    print(months[1:])
+    #print_pause()
+    month = input("\nPlease type in a month (use the full name):\n").lower()
+    while month not in months:
+        type_print("\nInvalid Input, please try again.\n")
+        month = input("\nPlease type in a month (use the full name):\n").lower()
+    type_print("\nWhich day would you like to use to view the Bikeshare data?\n")
+    type_print("\nPlease type 'none' if you don't want to filter by day\n")
+    type_print("\nThe database covers the following days:\n")
+    #print_pause()
+    print(days[1:])
+    #print_pause()
+    day = input("\nPlease type in a day (use the full name):\n").lower()
+    while day not in days:
+        type_print("\nInvalid Input, please try again.\n")
+        day = input("\nPlease type in a day (use the full name):\n").lower()
+    type_print("\nInput so far City: {}, Month: {}, Day: {}\n".format(city, month, day))
+    load_data(city, month, day)
