@@ -179,6 +179,39 @@ def dict_userinfo_looper(city, df, key, value):
                 print("\n")
 
 
+# Dictionary Key function for the birth info data found in stats_info:
+def dict_birthstats_looper(city, df, key, value):
+    # Note that for this Dictionary Looper, the city is passsed as a Parameter
+    # as Washington doesn't contain any 'Birth Year' data. Thus, to avoid a
+    # KeyError being raised if the user selects Washington, the selected city
+    # must be passed to this function as a safeguard.
+    if key == "birth info":
+        for n in range(len(stats_info[key])):
+            if n == 0 and city.lower() != "washington":
+                data = df["Birth Year"].min()
+                data_int = int(data)
+                print_pause(4)
+                print("{}: {}".format(value[n], data_int))
+                print("Possible Age in 2017:", 2017 - data_int)
+                print("\n")
+            elif n == 1 and city.lower() != "washington":
+                data = df["Birth Year"].max()
+                data_int = int(data)
+                print_pause(4)
+                print("{}: {}".format(value[n], data_int))
+                print("Possible Age in 2017:", 2017 - data_int)
+                print("\n")
+            elif n == 2 and city.lower() != "washington":
+                data = df[value[n]].mode()[0]
+                data_int = int(data)
+                count = df[value[n]].value_counts().iloc[0]
+                print_pause(4)
+                print("Most Popular {}: {}".format(value[n], data_int))
+                print("Count: {}".format(count))
+                print("Possible Age in 2017:", 2017 - data_int)
+                print("\n")
+
+
 # stats_calculator() test_code version
 def stats_calculator(df):
     print("\nstats_calculator() currently operating...\n")
@@ -342,3 +375,44 @@ def counter(city, df):
         # Thanks to the refactoring of the code, this new function has been
         # reduced from 20 Lines to 5 Lines
         dict_userinfo_looper(city, df, key, value)
+
+
+# birth_stats() test_code version:
+def birth_stats(city, df):
+    print("\nbirth_stats() currently operating...\n")
+    print("Handling the", city.title(), "DataFrame\n")
+    for key, value in stats_info.items():
+        if key == "birth info":
+            for n in range(len(stats_info[key])):
+                if n == 0 and city.lower() != "washington":
+                    data = df["Birth Year"].min()
+                    data_int = int(data)
+                    print_pause(4)
+                    print("{}: {}".format(value[n], data_int))
+                    print("Possible Age in 2017:", 2017 - data_int)
+                    print("\n")
+                elif n == 1 and city.lower() != "washington":
+                    data = df["Birth Year"].max()
+                    data_int = int(data)
+                    print_pause(4)
+                    print("{}: {}".format(value[n], data_int))
+                    print("Possible Age in 2017:", 2017 - data_int)
+                    print("\n")
+                elif n == 2 and city.lower() != "washington":
+                    data = df[value[n]].mode()[0]
+                    data_int = int(data)
+                    count = df[value[n]].value_counts().iloc[0]
+                    print_pause(4)
+                    print("Most Popular {}: {}".format(value[n], data_int))
+                    print("Count: {}".format(count))
+                    print("Possible Age in 2017:", 2017 - data_int)
+                    print("\n")
+
+# birth_stats() test_program version:
+def birth_stats(city, df):
+    print("\nbirth_stats() currently operating...\n")
+    print("Handling the", city.title(), "DataFrame\n")
+    for key, value in stats_info.items():
+        # Thanks to the refactoring of the code, this new function has been
+        # reduced from 29 Lines to 5 Lines
+        dict_birthstats_looper(city, df, key, value)
