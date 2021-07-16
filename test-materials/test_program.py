@@ -110,6 +110,7 @@ def dict_mode_looper(df, key, value):
         for n in range(len(stats_info[key])):
             data = df[value[n]].mode()[0]
             count = df[value[n]].value_counts().iloc[0]
+            print_pause(4)
             print("Calculating statistic Modal", value[n])
             print("\nMost Popular {}: {}".format(value[n], data))
             print("Count: {}\n".format(count))
@@ -117,6 +118,7 @@ def dict_mode_looper(df, key, value):
         for n in range(len(stats_info[key])):
             data = df[value[n]].mode()[0]
             count = df[value[n]].value_counts().iloc[0]
+            print_pause(4)
             print("Calculating statistic Modal", value[n])
             print("\nMost Popular {}: {}".format(value[n], data))
             print("Count: {}\n".format(count))
@@ -128,6 +130,7 @@ def dict_metrics_looper(df, key, value):
             if n == 0:
                 data = df["Trip Duration"].sum()
                 data_ref = round(data / 3600, 2)
+                print_pause(4)
                 print("Calculating Statistics", value[n])
                 print("\n" + value[n], data_ref, "Hours")
                 data_days = round(data_ref / 24, 2)
@@ -135,16 +138,19 @@ def dict_metrics_looper(df, key, value):
             elif n == 1:
                 data = df["Trip Duration"].mean()
                 data_ref = round(data / 60, 2)
+                print_pause(4)
                 print("Calculating Statistics", value[n])
                 print("\n" + value[n], data_ref, "Minutes\n")
             elif n == 2:
                 data = df["Trip Duration"].std()
                 data_ref = round(data /60, 2)
+                print_pause(4)
                 print("Calculating Statistics", value[n])
                 print("\n" + value[n], data_ref, "Minutes\n")
             elif n == 3:
                 data = df["Trip Duration"].median()
                 data_ref = round(data / 60, 2)
+                print_pause(4)
                 print("Calculating Statistics", value[n])
                 print("\n" + value[n], data_ref, "Minutes\n")
 
@@ -248,10 +254,10 @@ def obtain_input():
     type_print("\nWhich City would you like to view the BikeShare data for?\n")
     type_print("\nThe following Cities are in the database:\n")
     print("\n")
-    #print_pause()
+    print_pause(1)
     for key in cities_data:
         print(key.title(), "\n")
-    #print_pause()
+    print_pause()
     city = input("\nPlease type in a city (use the full name):\n").lower()
     while city not in cities_data.keys():
         type_print("\nInvalid Input, please try again.\n")
@@ -259,12 +265,12 @@ def obtain_input():
     type_print("\nWhich month would you like to use to view the Bikeshare data?\n")
     type_print("\nPlease type 'none' if you don't want to filter by month\n")
     type_print("\nThe database covers the following months:\n")
-    #print_pause()
+    print_pause(1)
     # Attempting to use type_print() below results in a string being printed
     # with all the months in one line, with no spaces separating them. Thus avoid
     # using type_print for anything other than plain text.
     print(months[1:])
-    #print_pause()
+    print_pause()
     month = input("\nPlease type in a month (use the full name):\n").lower()
     while month not in months:
         type_print("\nInvalid Input, please try again.\n")
@@ -272,9 +278,9 @@ def obtain_input():
     type_print("\nWhich day would you like to use to view the Bikeshare data?\n")
     type_print("\nPlease type 'none' if you don't want to filter by day\n")
     type_print("\nThe database covers the following days:\n")
-    #print_pause()
+    print_pause(1)
     print(days[1:])
-    #print_pause()
+    print_pause()
     day = input("\nPlease type in a day (use the full name):\n").lower()
     while day not in days:
         type_print("\nInvalid Input, please try again.\n")
