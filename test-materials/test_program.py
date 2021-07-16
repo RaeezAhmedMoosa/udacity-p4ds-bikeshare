@@ -77,6 +77,60 @@ def print_pause(time=3):
     tm.sleep(time)
 
 
+# Refactored obtain_input() function, which has been split across 3 functions.
+# These functions all operate in the same way, with the only difference is the
+# type of input that is obtained from the user.
+#
+# Note that, through testing, the variables within each of these 3 functions had
+# to be made into global variables so that it could be returned to the function
+# obtain_input() which called on these functions in the first place.
+def obtain_city():
+    global city
+    type_print("\nWhich City would you like to view the BikeShare data for?\n")
+    type_print("\nThe following Cities are in the database:\n")
+    print("\n")
+    print_pause(1)
+    for key in cities_data:
+        print(key.title(), "\n")
+    print_pause()
+    city = input("\nPlease type in a city (use the full name):\n").lower()
+    while city not in cities_data.keys():
+        type_print("\nInvalid Input, please try again.\n")
+        city = input("\nPlease type in a city (use the full name):\n").lower()
+    return city
+
+
+def obtain_month():
+    global month
+    type_print("\nWhich month would you like to use to view the Bikeshare data?\n")
+    type_print("\nPlease type 'none' if you don't want to filter by month\n")
+    type_print("\nThe database covers the following months:\n")
+    print_pause(1)
+    print(months[1:])
+    print_pause()
+    month = input("\nPlease type in a month (use the full name):\n").lower()
+    while month not in months:
+        type_print("\nInvalid Input, please try again.\n")
+        month = input("\nPlease type in a month (use the full name):\n").lower()
+    return month
+
+
+def obtain_day():
+    global day
+    type_print("\nWhich day would you like to use to view the Bikeshare data?\n")
+    type_print("\nPlease type 'none' if you don't want to filter by day\n")
+    type_print("\nThe database covers the following days:\n")
+    print_pause(1)
+    print(days[1:])
+    print_pause()
+    day = input("\nPlease type in a day (use the full name):\n").lower()
+    while day not in days:
+        type_print("\nInvalid Input, please try again.\n")
+        day = input("\nPlease type in a day (use the full name):\n").lower()
+    return day
+
+
+
 # load_data()
 def load_data(city, month="none", day="none"):
     df = pd.read_csv(cities_data[city])
@@ -416,3 +470,57 @@ def birth_stats(city, df):
         # Thanks to the refactoring of the code, this new function has been
         # reduced from 29 Lines to 5 Lines
         dict_birthstats_looper(city, df, key, value)
+
+
+# obtain_input() test_program version 1:
+def obtain_input():
+    # The type_print() function will only be implemented for input related text
+    # strings only, as testing type_print() with the other functions resulted in
+    # numerous formatting issues and exceptions being raised
+    type_print("\nWhich City would you like to view the BikeShare data for?\n")
+    type_print("\nThe following Cities are in the database:\n")
+    print("\n")
+    print_pause(1)
+    for key in cities_data:
+        print(key.title(), "\n")
+    print_pause()
+    city = input("\nPlease type in a city (use the full name):\n").lower()
+    while city not in cities_data.keys():
+        type_print("\nInvalid Input, please try again.\n")
+        city = input("\nPlease type in a city (use the full name):\n").lower()
+    type_print("\nWhich month would you like to use to view the Bikeshare data?\n")
+    type_print("\nPlease type 'none' if you don't want to filter by month\n")
+    type_print("\nThe database covers the following months:\n")
+    print_pause(1)
+    # Attempting to use type_print() below results in a string being printed
+    # with all the months in one line, with no spaces separating them. Thus avoid
+    # using type_print for anything other than plain text.
+    print(months[1:])
+    print_pause()
+    month = input("\nPlease type in a month (use the full name):\n").lower()
+    while month not in months:
+        type_print("\nInvalid Input, please try again.\n")
+        month = input("\nPlease type in a month (use the full name):\n").lower()
+    type_print("\nWhich day would you like to use to view the Bikeshare data?\n")
+    type_print("\nPlease type 'none' if you don't want to filter by day\n")
+    type_print("\nThe database covers the following days:\n")
+    print_pause(1)
+    print(days[1:])
+    print_pause()
+    day = input("\nPlease type in a day (use the full name):\n").lower()
+    while day not in days:
+        type_print("\nInvalid Input, please try again.\n")
+        day = input("\nPlease type in a day (use the full name):\n").lower()
+    type_print("\nInput so far City: {}, Month: {}, Day: {}\n".format(city, month, day))
+    load_data(city, month, day)
+
+
+# obtain_input() test_program version 2:
+def obtain_input():
+    # Thanks to the refactoring of the code, this new function has been
+    # reduced from 34 Lines to 6 Lines
+    obtain_city()
+    obtain_month()
+    obtain_day()
+    type_print("\nInput entered - City: {} Month: {} Day: {}\n".format(city, month, day))
+    load_data(city, month, day)
