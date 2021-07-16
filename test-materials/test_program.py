@@ -155,6 +155,29 @@ def dict_metrics_looper(df, key, value):
                 print("\n" + value[n], data_ref, "Minutes\n")
 
 
+# Dictionary Key function for the user info data found in stats_info:
+def dict_userinfo_looper(city, df, key, value):
+    # Note that for this Dictionary Looper, the city is passsed as a Parameter
+    # as Washington doesn't contain any 'Gender' data. Thus, to avoid a KeyError
+    # being raised if the user selects Washington, the selected city must be
+    # passed to this function as a safeguard.
+    if key == "user info":
+        for n in range(len(stats_info[key])):
+            if n == 0:
+                df = df.copy()
+                df["User Type"].fillna("Unknown", inplace=True)
+                data = df.groupby(["User Type"])["User Type"].count()
+                print_pause(4)
+                print(value[n], data)
+                print("\n")
+            elif n == 1 and city.lower() != "washington":
+                df = df.copy()
+                df["Gender"].fillna("Not Specified", inplace=True)
+                data = df.groupby(["Gender"])["Gender"].count()
+                print_pause(4)
+                print(value[n], data)
+                print("\n")
+
 
 # stats_calculator() test_code version
 def stats_calculator(df):
@@ -287,3 +310,35 @@ def obtain_input():
         day = input("\nPlease type in a day (use the full name):\n").lower()
     type_print("\nInput so far City: {}, Month: {}, Day: {}\n".format(city, month, day))
     load_data(city, month, day)
+
+
+# counter() test_code version:
+def counter(city, df):
+    print("\ncounter() currently operating...\n")
+    print("Handling the", city.title(), "DataFrame\n")
+    for key, value in stats_info.items():
+        if key == "user info":
+            for n in range(len(stats_info[key])):
+                if n == 0:
+                    df = df.copy()
+                    df["User Type"].fillna("Unknown", inplace=True)
+                    data = df.groupby(["User Type"])["User Type"].count()
+                    print_pause(4)
+                    print(value[n], data)
+                    print("\n")
+                elif n == 1 and city.lower() != "washington":
+                    df = df.copy()
+                    df["Gender"].fillna("Not Specified", inplace=True)
+                    data = df.groupby(["Gender"])["Gender"].count()
+                    print_pause(4)
+                    print(value[n], data)
+                    print("\n")
+
+# counter() test_program version:
+def counter(city, df):
+    print("\ncounter() currently operating...\n")
+    print("Handling the", city.title(), "DataFrame\n")
+    for key, value in stats_info.items():
+        # Thanks to the refactoring of the code, this new function has been
+        # reduced from 20 Lines to 5 Lines
+        dict_userinfo_looper(city, df, key, value)
