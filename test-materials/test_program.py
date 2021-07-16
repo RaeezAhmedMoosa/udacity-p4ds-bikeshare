@@ -65,6 +65,18 @@ def type_print(text):
         tm.sleep(0.05)
 
 
+# print_pause() function:
+#
+# Simple function that will allow the information being displayed during the
+# program to be returned to the user at a 3 second interval. This will prevent a
+# flood/avalanche of information being displayed to the user.
+#
+# The default parameter is 3 seconds, but this can be changed by passing a number
+# to the function to have a shorter/longer pause depending on the circumstances
+def print_pause(time=3):
+    tm.sleep(time)
+
+
 # load_data()
 def load_data(city, month="none", day="none"):
     df = pd.read_csv(cities_data[city])
