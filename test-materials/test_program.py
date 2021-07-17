@@ -526,6 +526,7 @@ def obtain_input():
     load_data(city, month, day)
 
 
+
 # Now I need to create a function that will allow the user to view the raw data
 # of the DataFrame that the program created and used to calculate all the various
 # statistics found in the program.
@@ -580,3 +581,30 @@ def data_viewer(df):
         y += 5
     if choice == 'no':
         type_print("Thank you, we hope this experience has been informative.")
+
+
+
+# Next, I need to develop a function which will give the user the choice to either
+# restart the program and use it again or to exit the program completely. This
+# function must be placed before the number_cruncher() function in the
+# test_script code
+
+# conclusion() version 1:
+def conclusion():
+    # TPS to verify that the conclusion() function is operating within the program
+    print("\nconclusion() currently operating...\n")
+    print_pause(2)
+    choice = input("Type 'restart' to restart.\n"
+                   "Type 'quit' to exit the program.\n").lower()
+    # While Loop for handling invalid user input
+    while choice not in ["restart", "quit"]:
+        type_print("\nInvalid Input, please try again.\n")
+        choice = input("Type 'restart' to restart.\n"
+                       "Type 'quit' to exit the program.\n").lower()
+    # This will start the program again by running the obtain_data() program
+    if choice == "restart":
+        type_print("Proceeding to restart the program...")
+        obtain_input()
+    # This exits the program completely
+    elif choice == "quit":
+        type_print("Thank you for using this program. Goodbye!")
