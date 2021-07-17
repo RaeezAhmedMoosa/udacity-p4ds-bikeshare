@@ -524,3 +524,59 @@ def obtain_input():
     obtain_day()
     type_print("\nInput entered - City: {} Month: {} Day: {}\n".format(city, month, day))
     load_data(city, month, day)
+
+
+# Now I need to create a function that will allow the user to view the raw data
+# of the DataFrame that the program created and used to calculate all the various
+# statistics found in the program.
+#
+# This function should also give the user the option to view 5 rows of data at a
+# time, with an option to keep viewing 5 more rows. The user must also be given
+# the choice to leave the viewing of the raw data and/or to not view the data
+# at all when first prompted to do so.
+#
+# This function should operate after the number_cruncher() function, after all
+# the Descriptive Statistics have been calculated
+
+# data_viwer() version 1:
+def data_viewer(df):
+    # TPS to verify that the data_viewer() function is operating within the program
+    print("\ndata_viewer() currently operating...\n")
+    print_pause(2)
+    # TPS to verify that, in the event of a filtered DataFrame, the actual filtered
+    # DataFrame is being used
+    print(df[["Day of Week", "Month"]].head())
+    # These 2 variables are the slicing integers to be used to return 5 rows of
+    # the raw data from the DataFrame each time the user inputs 'yes'
+    x = 0
+    y = 5
+    print_pause(2)
+    type_print("\nWould you like to see the raw BikeShare data?\n")
+    choice = input("\nPlease type 'yes' to view the raw data.\n"
+                   "Please type 'no' if you're not interested in the raw data."
+                   "\n").lower()
+    # While Loop to validate the input and handle any invalid input
+    while choice not in ["yes", "no"]:
+        type_print("\nInvalid Input, please try again.\n")
+        choice = input("\nPlease type 'yes' to view the raw data.\n"
+                       "Please type 'no' if you're not interested in the raw data."
+                       "\n").lower()
+   # While Loop that handles the printing of the raw DataFrame data each time the
+   # user wants to view the data.
+    while choice == 'yes':
+        print_pause(1)
+        # Print statement to make the user aware that the program will be
+        # displaying the requested data
+        print("\nRaw data from the DataFrame incoming...\n")
+        print_pause()
+        # To remove ambiguity, the Numerical Indexing method is used
+        print(df.iloc[x:y])
+        choice = input("\nType 'yes' for more data.\n"
+                       "Type 'no' to exit.\n").lower()
+        # Each time the user responds with 'yes', the slice variables will
+        # increase in value by 5, as to comply with the project specification of
+        # displaying 5 rows of data at a time
+        x += 5
+        y += 5
+    if choice == 'no':
+        type_print("Thank you, we hope this experience has been informative.")
