@@ -208,6 +208,7 @@ def load_data(city, month="none", day="none"):
     '''
     df = pd.read_csv(cities_data[city])
     type_print("\nDataFrame created for: " + city.title())
+    line_break(2)
     df["Start Time"] = pd.to_datetime(df["Start Time"])
     df["Hour"] = df["Start Time"].dt.hour
     # This creates a new column with the months listed in the format month.title()
@@ -236,10 +237,12 @@ def data_filter(city, df, month="none", day="none"):
     if month != "none" and day == "none":
         print("\nFiltering by month:", month.title())
         df = df[df["Month"] == month.title()]
+        line_break(3)
         number_cruncher(city, df)
     elif day != "none" and month == "none":
         print("\nFiltering by day:", day.title())
         df = df[df["Day of Week"] == day.title()]
+        line_break(3)
         number_cruncher(city, df)
     elif month != "none" and day != "none":
         print("\nFiltering by day and month:", day.title(), month.title())
@@ -249,10 +252,13 @@ def data_filter(city, df, month="none", day="none"):
         # enclosed in brackets (which I had done) and that the '&' keyword must
         # be used to connect the conditions
         df = df[(df["Day of Week"] == day.title()) & (df["Month"] == month.title())]
+        line_break(3)
         number_cruncher(city, df)
     elif month == "none" and day == "none":
         print("\nNo Filters are being applied.")
+        line_break(3)
         number_cruncher(city, df)
+
 
 
 # Statistical functions:
@@ -531,6 +537,7 @@ def data_viewer(df):
                            "Type 'no' to exit.\n").lower()
     if choice == 'no':
         type_print("Thank you, we hope this experience has been informative.")
+        line_break(3)
 
 # conclusion() allows the user to either restart or quit the program
 def conclusion():
