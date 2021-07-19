@@ -173,7 +173,7 @@ def obtain_input():
     obtain_city()
     obtain_month()
     obtain_day()
-    type_print("\nInput so far City: {}, Month: {}, Day: {}\n".format(city, month, day))
+    type_print("\nInput - City: {}, Month: {}, Day: {}\n".format(city, month, day))
     load_data(city, month, day)
 
 
@@ -372,6 +372,17 @@ def dict_userinfo_looper(city, df, key, value):
             # 0 == "User Type Count"
             if n == 0:
                 start_time = tm.time()
+                # While testing this code block, I received a warning called
+                # 'SettingwithCopyWarning'. This was not an error or exception
+                # but a warning that a value is trying to be set on a copy
+                # of a slice from a DataFrame.
+                #
+                # This was affecting the count for both "user info" elements
+                # as the NaN replacement value was not being counted.
+                #
+                # To resolve this, I inserted the line below to create a
+                # copy of the DataFrame before replacing the NaNs. This
+                # has resolved the issue.
                 df = df.copy()
                 df["User Type"].fillna("Unknown", inplace=True)
                 # Similar to SQL (specifically Postgres), to obtain a count of each
@@ -451,21 +462,16 @@ def dict_birthstats_looper(city, df, key, value):
 
 # Descriptive Statistics functions:
 def stats_calculator(df):
-    print("\nstats_calculator() currently operating...\n")
     print(df[["Day of Week", "Month"]].head())
     for key, value in stats_info.items():
         dict_mode_looper(df, key, value)
         dict_metrics_looper(df, key, value)
 
 def counter(city, df):
-    print("\ncounter() currently operating...\n")
-    print("Handling the", city.title(), "DataFrame\n")
     for key, value in stats_info.items():
         dict_userinfo_looper(city, df, key, value)
 
 def birth_stats(city, df):
-    print("\nbirth_stats() currently operating...\n")
-    print("Handling the", city.title(), "DataFrame\n")
     for key, value in stats_info.items():
         dict_birthstats_looper(city, df, key, value)
 
@@ -474,9 +480,7 @@ def birth_stats(city, df):
 
 # data_viewer() - displays the DataFrame data to the user upon request
 def data_viewer(df):
-    print("\ndata_viewer() currently operating...\n")
     print_pause(2)
-    print(df[["Day of Week", "Month"]].head())
     # These 2 variables are the slicing integers to be used to return 5 rows of
     # the raw data from the DataFrame each time the user inputs 'yes'
     x = 0
@@ -487,9 +491,6 @@ def data_viewer(df):
                    "Please type 'no' if you're not interested in the raw data."
                    "\n").lower()
     while choice not in ["yes", "no"]:
-        # ISSUE:
-        #
-        # invalid input is not registering when after choosing 'yes', the
         type_print("\nInvalid Input, please try again.\n")
         choice = input("\nPlease type 'yes' to view the raw data.\n"
                        "Please type 'no' if you're not interested in the raw data."
@@ -524,7 +525,6 @@ def data_viewer(df):
 
 # conclusion() allows the user to either restart or quit the program
 def conclusion():
-    print("\nconclusion() currently operating...\n")
     print_pause(2)
     choice = input("Type 'restart' to restart.\n"
                    "Type 'quit' to exit the program.\n").lower()
@@ -548,16 +548,10 @@ def conclusion():
 # functions, I have created this number_cruncher() function to send the
 # returned data from data_filter() onwards
 def number_cruncher(city, df):
-    print("\nnumber_cruncher() currently operating...\n")
-    print("number_cruncher() is operating on the DataFrame for:", city.title())
     stats_calculator(df)
-    print("\nstats_calculator() operation complete.")
     counter(city, df)
-    print("\ncounter() operation complete.")
     birth_stats(city, df)
-    print("\nbirth_stats() operation complete.")
     data_viewer(df)
-    print("\ndata_viewer() operation complete.")
     conclusion()
 
 
