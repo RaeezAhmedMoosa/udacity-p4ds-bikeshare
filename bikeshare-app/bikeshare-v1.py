@@ -233,7 +233,7 @@ def data_filter(city, df, month="none", day="none"):
         df = df[(df["Day of Week"] == day.title()) & (df["Month"] == month.title())]
         number_cruncher(city, df)
     elif month == "none" and day == "none":
-        print("No Filters are being applied")
+        print("No Filters are being applied.")
         number_cruncher(city, df)
 
 
@@ -274,7 +274,7 @@ def dict_mode_looper(df, key, value):
             # issue when working the with Chicago and NYC DataFrames
             count = df[value[n]].value_counts().iloc[0]
             print_pause(4)
-            print("Calculating statistic Modal", value[n])
+            print("Calculating statistic - Modal", value[n])
             print("\nMost Popular {}: {}".format(value[n], data))
             print("Count: {}\n".format(count))
     # 2nd Key in the stat_info Dictionary
@@ -283,7 +283,7 @@ def dict_mode_looper(df, key, value):
             data = df[value[n]].mode()[0]
             count = df[value[n]].value_counts().iloc[0]
             print_pause(4)
-            print("Calculating statistic Modal", value[n])
+            print("Calculating statistic - Modal", value[n])
             print("\nMost Popular {}: {}".format(value[n], data))
             print("Count: {}\n".format(count))
 
@@ -300,7 +300,7 @@ def dict_metrics_looper(df, key, value):
                 # This returns the Total Sum of "Trip Duration" in hours
                 data_ref = round(data / 3600, 2)
                 print_pause(4)
-                print("Calculating Statistics", value[n])
+                print("Calculating statistic -", value[n])
                 print("\n" + value[n], data_ref, "Hours")
                 # Again, to refine the data even further to make it easier for the
                 # user to understand, 'data_ref' is divided by 24 (1 day = 24 hours)
@@ -314,14 +314,14 @@ def dict_metrics_looper(df, key, value):
                 # is refined by dividing it by 60 (1 minute = 60 seconds)
                 data_ref = round(data / 60, 2)
                 print_pause(4)
-                print("Calculating Statistics", value[n])
+                print("Calculating statistic -", value[n])
                 print("\n" + value[n], data_ref, "Minutes\n")
             # 2 == "Standard Deviation"
             elif n == 2:
                 data = df["Trip Duration"].std()
                 data_ref = round(data /60, 2)
                 print_pause(4)
-                print("Calculating Statistics", value[n])
+                print("Calculating statistic -", value[n])
                 print("\n" + value[n], data_ref, "Minutes\n")
             # 3 == "Median Travel Time"
             elif n == 3:
@@ -330,7 +330,7 @@ def dict_metrics_looper(df, key, value):
                 # is refined by dividing it by 60 (1 minute = 60 seconds)
                 data_ref = round(data / 60, 2)
                 print_pause(4)
-                print("Calculating Statistics", value[n])
+                print("Calculating statistic -", value[n])
                 print("\n" + value[n], data_ref, "Minutes\n")
 
 def dict_userinfo_looper(city, df, key, value):
@@ -393,14 +393,14 @@ def dict_birthstats_looper(city, df, key, value):
                 # line to indicate the possible age of the user with the
                 # minimum age. The same has been done for the maximum and
                 # modal age later on in the code
-                print("Possible Age in 2017:", 2017 - data_int)
+                print("Possible age in 2017:", 2017 - data_int)
                 print("\n")
             elif n == 1 and city.lower() != "washington":
                 data = df["Birth Year"].max()
                 data_int = int(data)
                 print_pause(4)
                 print("{}: {}".format(value[n], data_int))
-                print("Possible Age in 2017:", 2017 - data_int)
+                print("Possible age in 2017:", 2017 - data_int)
                 print("\n")
             elif n == 2 and city.lower() != "washington":
                 data = df[value[n]].mode()[0]
@@ -409,7 +409,7 @@ def dict_birthstats_looper(city, df, key, value):
                 print_pause(4)
                 print("Most Popular {}: {}".format(value[n], data_int))
                 print("Count: {}".format(count))
-                print("Possible Age in 2017:", 2017 - data_int)
+                print("Possible age in 2017:", 2017 - data_int)
                 print("\n")
 
 # Descriptive Statistics functions:
@@ -459,7 +459,8 @@ def data_viewer(df):
                        "\n").lower()
     while choice == 'yes':
         print_pause(1)
-        print("\nRaw data from the DataFrame incoming...\n")
+        type_print("\nRaw data from the DataFrame incoming...\n")
+        print("\n")
         print_pause()
         # To remove ambiguity, the Numerical Indexing method is used
         print(df.iloc[x:y])
