@@ -153,7 +153,7 @@ def obtain_city():
 
 def obtain_month():
     global month
-    type_print("\nWhich month would you like to use to view the Bikeshare data?\n")
+    type_print("\nWhich month would you like to use to view the BikeShare data?\n")
     type_print("\nPlease type 'none' if you don't want to filter by month\n")
     type_print("\nThe database covers the following months:\n")
     print_pause(1)
@@ -170,7 +170,7 @@ def obtain_month():
 
 def obtain_day():
     global day
-    type_print("\nWhich day would you like to use to view the Bikeshare data?\n")
+    type_print("\nWhich day would you like to use to view the BikeShare data?\n")
     type_print("\nPlease type 'none' if you don't want to filter by day\n")
     type_print("\nThe database covers the following days:\n")
     print_pause(1)
@@ -556,7 +556,7 @@ def conclusion():
     if choice == "restart":
         type_print("Proceeding to restart the program...")
         line_break(20)
-        obtain_input()
+        main()
     elif choice == "quit":
         type_print("Thank you for using this program. Goodbye!")
 
@@ -580,6 +580,8 @@ def bikeshare():
     obtain_input()
     conclusion()
 
-# Test section
+def main():
+    bikeshare()
 
-bikeshare()
+if __name__ == "__main__":
+    main()
