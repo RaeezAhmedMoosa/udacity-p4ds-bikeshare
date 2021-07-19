@@ -99,7 +99,13 @@ def line_break(number=1):
 
 # Calculation Time function
 
-# time_calc():
+# time_calc()
+#
+# This function is the result of the refactoring of the sections of the code
+# dealing with calculations, specifically the time it takes to perform these
+# calculations. This function takes 2 parameters,being the Start time and the
+# End time. It returns the time spent performing an action, in an interval which
+# can be rounded according to the developer's discretion
 def time_calc(start, end):
     print("Calculation time (seconds):", round((end - start), 3) )
     line_break()
@@ -477,7 +483,6 @@ def dict_birthstats_looper(city, df, key, value):
 
 # Descriptive Statistics functions:
 def stats_calculator(df):
-    print(df[["Day of Week", "Month"]].head())
     for key, value in stats_info.items():
         dict_mode_looper(df, key, value)
         dict_metrics_looper(df, key, value)
@@ -569,6 +574,8 @@ def number_cruncher(city, df):
     birth_stats(city, df)
     data_viewer(df)
 
+# bikeshare() is a wrapper function which will be used in the final stages
+# of the program
 def bikeshare():
     obtain_input()
     conclusion()
