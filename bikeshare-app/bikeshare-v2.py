@@ -270,6 +270,7 @@ def dict_mode_looper(df, key, value):
     # 1st Key in the stat_info Dictionary
     if key == "mode times":
         for n in range(len(stats_info[key])):
+            start_time = tm.time()
             data = df[value[n]].mode()[0]
             # This extracts the count of the modal data obtained above, in
             # order to include it with the statistic printed by the function
@@ -285,16 +286,21 @@ def dict_mode_looper(df, key, value):
             print_pause(4)
             print("Calculating statistic - Modal", value[n])
             print("\nMost Popular {}: {}".format(value[n], data))
-            print("Count: {}\n".format(count))
+            print("Count: {}".format(count))
+            print("Calculation time (seconds):", round(tm.time() - start_time, 2) )
+            line_break()
     # 2nd Key in the stat_info Dictionary
     elif key == "mode trips":
         for n in range(len(stats_info[key])):
+            start_time = tm.time()
             data = df[value[n]].mode()[0]
             count = df[value[n]].value_counts().iloc[0]
             print_pause(4)
             print("Calculating statistic - Modal", value[n])
             print("\nMost Popular {}: {}".format(value[n], data))
-            print("Count: {}\n".format(count))
+            print("Count: {}".format(count))
+            print("Calculation time (seconds):", round(tm.time() - start_time, 2) )
+            line_break()
 
 def dict_metrics_looper(df, key, value):
     # 3rd Key in the stat_info Dictionary
@@ -302,6 +308,7 @@ def dict_metrics_looper(df, key, value):
         for n in range(len(stats_info[key])):
             # 0 == "Total Travel Time"
             if n == 0:
+                start_time = tm.time()
                 data = df["Trip Duration"].sum()
                 # To make the data a bit easier to understand for the user, the data
                 # is refined further, by dividing it by 3600 (1 hour = 60 minutes * 60 seconds)
@@ -315,32 +322,43 @@ def dict_metrics_looper(df, key, value):
                 # user to understand, 'data_ref' is divided by 24 (1 day = 24 hours)
                 # to return a rounded amount of Days for "Trip Duration" Total Sum
                 data_days = round(data_ref / 24, 2)
-                print(value[n], data_days, "Days\n")
+                print(value[n], data_days, "Days")
+                print("Calculation time (seconds):", round(tm.time() - start_time, 2) )
+                line_break()
             # 1 == "Average Travel Time"
             elif n == 1:
+                start_time = tm.time()
                 data = df["Trip Duration"].mean()
                 # Again, to make the data easier to understand for the user, the data
                 # is refined by dividing it by 60 (1 minute = 60 seconds)
                 data_ref = round(data / 60, 2)
                 print_pause(4)
                 print("Calculating statistic -", value[n])
-                print("\n" + value[n], data_ref, "Minutes\n")
+                print("\n" + value[n], data_ref, "Minutes")
+                print("Calculation time (seconds):", round(tm.time() - start_time, 2) )
+                line_break()
             # 2 == "Standard Deviation"
             elif n == 2:
+                start_time = tm.time()
                 data = df["Trip Duration"].std()
                 data_ref = round(data /60, 2)
                 print_pause(4)
                 print("Calculating statistic -", value[n])
-                print("\n" + value[n], data_ref, "Minutes\n")
+                print("\n" + value[n], data_ref, "Minutes")
+                print("Calculation time (seconds):", round(tm.time() - start_time, 2) )
+                line_break()
             # 3 == "Median Travel Time"
             elif n == 3:
+                start_time = tm.time()
                 data = df["Trip Duration"].median()
                 # Again, to make the data easier to understand for the user, the data
                 # is refined by dividing it by 60 (1 minute = 60 seconds)
                 data_ref = round(data / 60, 2)
                 print_pause(4)
                 print("Calculating statistic -", value[n])
-                print("\n" + value[n], data_ref, "Minutes\n")
+                print("\n" + value[n], data_ref, "Minutes")
+                print("Calculation time (seconds):", round(tm.time() - start_time, 2) )
+                line_break()
 
 def dict_userinfo_looper(city, df, key, value):
     # Note that for this Dictionary Looper, the city is passsed as a Parameter
@@ -353,6 +371,7 @@ def dict_userinfo_looper(city, df, key, value):
         for n in range(len(stats_info[key])):
             # 0 == "User Type Count"
             if n == 0:
+                start_time = tm.time()
                 df = df.copy()
                 df["User Type"].fillna("Unknown", inplace=True)
                 # Similar to SQL (specifically Postgres), to obtain a count of each
@@ -370,9 +389,11 @@ def dict_userinfo_looper(city, df, key, value):
                 data = df.groupby(["User Type"])["User Type"].count()
                 print_pause(4)
                 print(value[n], data)
-                print("\n")
+                print("Calculation time (seconds):", round(tm.time() - start_time, 2) )
+                line_break()
             # 0 == "Gender Count"
             elif n == 1 and city.lower() != "washington":
+                start_time = tm.time()
                 df = df.copy()
                 df["Gender"].fillna("Not Specified", inplace=True)
                 # This code follows the same logic and process as the count made for
@@ -380,7 +401,8 @@ def dict_userinfo_looper(city, df, key, value):
                 data = df.groupby(["Gender"])["Gender"].count()
                 print_pause(4)
                 print(value[n], data)
-                print("\n")
+                print("Calculation time (seconds):", round(tm.time() - start_time, 2) )
+                line_break()
 
 def dict_birthstats_looper(city, df, key, value):
     # Note that for this Dictionary Looper, the city is passsed as a Parameter
@@ -392,6 +414,7 @@ def dict_birthstats_looper(city, df, key, value):
     if key == "birth info":
         for n in range(len(stats_info[key])):
             if n == 0 and city.lower() != "washington":
+                start_time = tm.time()
                 data = df["Birth Year"].min()
                 # I see no reason for "Birth Year" to be a float type, so this
                 # line converts "Birth Year" into an integer type
@@ -403,15 +426,19 @@ def dict_birthstats_looper(city, df, key, value):
                 # minimum age. The same has been done for the maximum and
                 # modal age later on in the code
                 print("Possible age in 2017:", 2017 - data_int)
-                print("\n")
+                print("Calculation time (seconds):", round(tm.time() - start_time, 2) )
+                line_break()
             elif n == 1 and city.lower() != "washington":
+                start_time = tm.time()
                 data = df["Birth Year"].max()
                 data_int = int(data)
                 print_pause(4)
                 print("{}: {}".format(value[n], data_int))
                 print("Possible age in 2017:", 2017 - data_int)
-                print("\n")
+                print("Calculation time (seconds):", round(tm.time() - start_time, 2) )
+                line_break()
             elif n == 2 and city.lower() != "washington":
+                start_time = tm.time()
                 data = df[value[n]].mode()[0]
                 data_int = int(data)
                 count = df[value[n]].value_counts().iloc[0]
@@ -419,7 +446,8 @@ def dict_birthstats_looper(city, df, key, value):
                 print("Most Popular {}: {}".format(value[n], data_int))
                 print("Count: {}".format(count))
                 print("Possible age in 2017:", 2017 - data_int)
-                print("\n")
+                print("Calculation time (seconds):", round(tm.time() - start_time, 2) )
+                line_break()
 
 # Descriptive Statistics functions:
 def stats_calculator(df):
