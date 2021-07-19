@@ -88,6 +88,13 @@ def type_print(text):
 def print_pause(time=3):
     tm.sleep(time)
 
+# line_break() function
+#
+# Basic function to implement line breaks within the text where necessary. The
+# default number of line breaks is 1, but this can be changed by passing an
+# integer to the function
+def line_break(number=1):
+    print("\n" * number)
 
 
 # BikeShare functions
@@ -110,7 +117,7 @@ def obtain_city():
     # can see the cities (and their spelling) before moving on to the input prompts.
     # Note that for this For Loop, the cities_data Dictionary has method called
     # on it, as the default in this case is to use the Dictionary Keys
-    print("\n")
+    line_break()
     print_pause(1)
     for key in cities_data:
         print(key.title(), "\n")
@@ -134,6 +141,7 @@ def obtain_month():
     type_print("\nPlease type 'none' if you don't want to filter by month\n")
     type_print("\nThe database covers the following months:\n")
     print_pause(1)
+    line_break()
     # To avoid confusion, the first element of the months List 'none' is excluded
     # when the code below is displayed to the user
     print(months[1:])
@@ -150,6 +158,7 @@ def obtain_day():
     type_print("\nPlease type 'none' if you don't want to filter by day\n")
     type_print("\nThe database covers the following days:\n")
     print_pause(1)
+    line_break()
     # To avoid confusion, the first element of the days List 'none' is excluded
     # when the code below is displayed to the user
     print(days[1:])
@@ -460,7 +469,7 @@ def data_viewer(df):
     while choice == 'yes':
         print_pause(1)
         type_print("\nRaw data from the DataFrame incoming...\n")
-        print("\n")
+        line_break()
         print_pause()
         # To remove ambiguity, the Numerical Indexing method is used
         print(df.iloc[x:y])
@@ -497,6 +506,7 @@ def conclusion():
                        "Type 'quit' to exit the program.\n").lower()
     if choice == "restart":
         type_print("Proceeding to restart the program...")
+        line_break(20)
         obtain_input()
     elif choice == "quit":
         type_print("Thank you for using this program. Goodbye!")
