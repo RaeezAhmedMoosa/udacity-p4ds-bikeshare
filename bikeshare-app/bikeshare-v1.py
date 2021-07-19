@@ -72,7 +72,7 @@ def type_print(text):
     text: Same string as the INPUT but with each character in the string being
           printed one at a time.
     '''
-    for ch in test:
+    for ch in text:
         print(ch, end='')
         sys.stdout.flush()
         tm.sleep(0.05)
@@ -450,6 +450,9 @@ def data_viewer(df):
                    "Please type 'no' if you're not interested in the raw data."
                    "\n").lower()
     while choice not in ["yes", "no"]:
+        # ISSUE:
+        #
+        # invalid input is not registering when after choosing 'yes', the
         type_print("\nInvalid Input, please try again.\n")
         choice = input("\nPlease type 'yes' to view the raw data.\n"
                        "Please type 'no' if you're not interested in the raw data."
@@ -467,6 +470,17 @@ def data_viewer(df):
         # displaying 5 rows of data at a time
         x += 5
         y += 5
+        # In testing, I found that in this part of the program, the user could
+        # input any text (except for 'yes') and the Loop would break. This was
+        # a bug that I addressed by adding the code below
+        if choice == 'no':
+            # If the user inputs 'no' specifically, the Loop breaks
+            break
+        # This code block handles any invalid input entered by the user
+        elif choice not in ["yes", "no"]:
+            type_print("\nInvalid Input, please try again.\n")
+            choice = input("\nType 'yes' for more data.\n"
+                           "Type 'no' to exit.\n").lower()
     if choice == 'no':
         type_print("Thank you, we hope this experience has been informative.")
 
@@ -506,3 +520,7 @@ def number_cruncher(city, df):
     data_viewer(df)
     print("\ndata_viewer() operation complete.")
     conclusion()
+
+
+# Test section
+obtain_input()
