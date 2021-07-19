@@ -568,8 +568,11 @@ def number_cruncher(city, df):
     counter(city, df)
     birth_stats(city, df)
     data_viewer(df)
+
+def bikeshare():
+    obtain_input()
     conclusion()
 
-
 # Test section
-obtain_input()
+
+bikeshare()
