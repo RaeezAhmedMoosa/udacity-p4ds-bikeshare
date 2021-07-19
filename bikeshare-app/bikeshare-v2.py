@@ -223,7 +223,6 @@ def data_filter(city, df, month="none", day="none"):
     month - string. Month to be used to filter the data (optional).
     day - string. Day to be used to filter the data (optional).
     '''
-    print("\ndata_filter() currently operating...\n")
     if month != "none" and day == "none":
         print("Filtering by month:", month.title())
         df = df[df["Month"] == month.title()]
@@ -403,7 +402,7 @@ def dict_userinfo_looper(city, df, key, value):
                 print("Calculation time (seconds):", round(tm.time() - start_time, 2) )
                 line_break()
             # 0 == "Gender Count"
-            elif n == 1 and city.lower() != "washington":
+            elif n == 1 and city != "washington":
                 start_time = tm.time()
                 df = df.copy()
                 df["Gender"].fillna("Not Specified", inplace=True)
@@ -424,7 +423,7 @@ def dict_birthstats_looper(city, df, key, value):
     # 5th Key in the stat_info Dictionary
     if key == "birth info":
         for n in range(len(stats_info[key])):
-            if n == 0 and city.lower() != "washington":
+            if n == 0 and city != "washington":
                 start_time = tm.time()
                 data = df["Birth Year"].min()
                 # I see no reason for "Birth Year" to be a float type, so this
@@ -439,7 +438,7 @@ def dict_birthstats_looper(city, df, key, value):
                 print("Possible age in 2017:", 2017 - data_int)
                 print("Calculation time (seconds):", round(tm.time() - start_time, 2) )
                 line_break()
-            elif n == 1 and city.lower() != "washington":
+            elif n == 1 and city != "washington":
                 start_time = tm.time()
                 data = df["Birth Year"].max()
                 data_int = int(data)
@@ -448,7 +447,7 @@ def dict_birthstats_looper(city, df, key, value):
                 print("Possible age in 2017:", 2017 - data_int)
                 print("Calculation time (seconds):", round(tm.time() - start_time, 2) )
                 line_break()
-            elif n == 2 and city.lower() != "washington":
+            elif n == 2 and city != "washington":
                 start_time = tm.time()
                 data = df[value[n]].mode()[0]
                 data_int = int(data)
@@ -526,7 +525,7 @@ def data_viewer(df):
 # conclusion() allows the user to either restart or quit the program
 def conclusion():
     print_pause(2)
-    choice = input("Type 'restart' to restart.\n"
+    choice = input("\nType 'restart' to restart.\n"
                    "Type 'quit' to exit the program.\n").lower()
     while choice not in ["restart", "quit"]:
         type_print("\nInvalid Input, please try again.\n")
