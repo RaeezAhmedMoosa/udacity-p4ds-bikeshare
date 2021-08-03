@@ -24,3 +24,9 @@ import the bike sharing data and calculate various types of descriptive statisti
 as well as other information. This script must be interactive, in that it will
 allow a user to choose a city, choose a filter for the data and allow the user
 to view the raw data.
+
+## Files Used
+BikeShare uses the following files:
+
+- bikeshare.py
+- .csv files for each city
