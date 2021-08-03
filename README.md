@@ -38,7 +38,7 @@ follow these steps and you can access the project:
 
 1.  Click on the green **Code** button, which will open up a small menu;
 2.  Within the menu, select the **Download ZIP** option;
-3.  Download the project file;
+3.  Download the project file **_bikeshare-zip.zip_**;
 4.  Open the zipped project file;
 5.  Unzip/Extract the project files into a _new_ folder.
 
