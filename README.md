@@ -48,3 +48,8 @@ of your choosing.
 ```
 git clone <remote-short-name> <remote-URL>
 ```
+
+## Contributions
+**BikeShare** is a project that was completed as part of **Udacity's**
+_Programming for Data Science with Python_ nanodegree program. As such, it's a
+simple project which doesn't require any user contribution.
